@@ -1,0 +1,1134 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Coding 心得分享</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;500;700;900&family=Fredoka:wght@500;600&display=swap">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #E9E3D6; }
+  body {
+    font-family: 'Chiron GoRound TC', Arial, sans-serif;
+    color: #2E3A33;
+    -webkit-font-smoothing: antialiased;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* 舞台：固定 1920×1080，依視窗等比縮放 */
+  .deck {
+    position: absolute; left: 50%; top: 50%;
+    width: 1920px; height: 1080px;
+    transform: translate(-50%, -50%) scale(var(--s, 1));
+    box-shadow: 0 20px 60px rgba(46, 58, 51, 0.12);
+  }
+  .deck > section {
+    position: absolute; left: 0; top: 0;
+    width: 1920px; height: 1080px;
+    overflow: hidden;
+    isolation: isolate;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .45s ease, visibility 0s linear .45s;
+  }
+  .deck > section.active {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transition: opacity .45s ease;
+  }
+  /* 背景裝飾放在最底層 */
+  .deck > section > svg:first-child { z-index: -1; }
+
+  /* 投影片元素的預設值 */
+  .deck p, .deck h1, .deck h2, .deck h3, .deck ul, .deck ol, .deck hr { margin: 0; }
+  .deck p { line-height: 1.4; }
+  .deck ul, .deck ol { padding-left: 1.3em; }
+  .deck li::marker { color: #9CC5AA; }
+  .deck hr { border: 0; height: 0; }
+  .deck aside { display: none; }
+  .deck x-icon { display: block; flex: none; }
+  .deck x-icon svg { display: block; width: 100%; height: 100%; }
+  .deck x-shape { display: block; flex: none; }
+  .deck x-shape[kind="arrow-right"] {
+    clip-path: polygon(0 25%, 60% 25%, 60% 0, 100% 50%, 60% 100%, 60% 75%, 0 75%);
+  }
+  .deck x-shape[kind="line"] {
+    height: 0 !important;
+    border-left: 0 !important; border-right: 0 !important; border-bottom: 0 !important;
+  }
+
+  /* 操作列 */
+  .ui {
+    position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 4px; padding: 6px;
+    background: rgba(255, 253, 248, 0.94);
+    border-radius: 999px;
+    box-shadow: 0 8px 24px rgba(46, 58, 51, 0.16);
+    font: 500 15px 'Chiron GoRound TC', Arial, sans-serif;
+    color: #2E3A33;
+    transition: opacity .3s;
+    z-index: 10;
+  }
+  .ui.hide { opacity: 0; pointer-events: none; }
+  .ui button {
+    border: 0; background: transparent; color: inherit; font: inherit;
+    padding: 8px 16px; border-radius: 999px; cursor: pointer;
+  }
+  .ui button:hover { background: #E3EFE6; }
+  .ui .arrow { padding: 8px 14px; font-size: 18px; line-height: 1; }
+  .ui .pages { display: flex; gap: 2px; }
+  .ui .pages button {
+    width: 38px; height: 38px; padding: 0;
+    font-family: 'Fredoka', Arial, sans-serif; font-weight: 500; font-size: 16px;
+  }
+  .ui .pages button[aria-current="page"] { background: #286B4F; color: #FFFDF8; }
+  .ui .count {
+    display: none;
+    font-family: 'Fredoka', Arial, sans-serif; font-weight: 500;
+    min-width: 64px; text-align: center;
+  }
+  @media (max-width: 640px) {
+    .ui .pages { display: none; }
+    .ui .count { display: inline; }
+  }
+
+  .progress {
+    position: fixed; left: 0; bottom: 0; height: 4px; width: 0;
+    background: #9CC5AA; transition: width .3s ease; z-index: 10;
+  }
+
+  /* 列印／另存 PDF：一頁一張投影片 */
+  @page { size: 1920px 1080px; margin: 0; }
+  @media print {
+    html, body { height: auto; overflow: visible; background: none; }
+    .deck { position: static; transform: none !important; height: auto; box-shadow: none; }
+    .deck > section {
+      position: relative;
+      opacity: 1 !important; visibility: visible !important; transition: none;
+      break-after: page; page-break-after: always;
+    }
+    .ui, .progress { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<main class="deck" aria-label="AI Coding 心得分享">
+<section id="cover" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:space-between;gap:48px">
+<svg aria-label="插圖：人與 AI 的對話氣泡" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1320 120 C1480 40 1760 60 1880 180 C2000 300 1990 560 1930 740 C1860 930 1660 1010 1480 960 C1300 910 1210 760 1220 580 C1230 400 1170 200 1320 120 Z" fill="#E3EFE6"/><circle cx="1250" cy="230" r="64" fill="#F8EBC4"/><rect x="1440" y="280" width="380" height="210" rx="60" fill="#FFFDF8"/><path d="M1500 480 L1470 550 L1570 486 Z" fill="#FFFDF8"/><polyline points="1580,345 1535,385 1580,425" fill="none" stroke="#286B4F" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><line x1="1655" y1="335" x2="1615" y2="435" stroke="#F0A35E" stroke-width="16" stroke-linecap="round"/><polyline points="1690,345 1735,385 1690,425" fill="none" stroke="#286B4F" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><rect x="1330" y="600" width="340" height="170" rx="60" fill="#F7CFA8"/><path d="M1600 760 L1650 825 L1555 766 Z" fill="#F7CFA8"/><circle cx="1430" cy="685" r="18" fill="#FFFDF8"/><circle cx="1500" cy="685" r="18" fill="#FFFDF8"/><circle cx="1570" cy="685" r="18" fill="#FFFDF8"/><circle cx="1850" cy="880" r="34" fill="none" stroke="#F0A35E" stroke-width="10"/><circle cx="1336" cy="872" r="10" fill="#9CC5AA"/><circle cx="1372" cy="896" r="10" fill="#9CC5AA"/><circle cx="1336" cy="920" r="10" fill="#9CC5AA"/><circle cx="0" cy="1080" r="120" fill="#F8EBC4"/></svg>
+<p style="align-self:flex-start;font-size:30px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:10px 32px;border-radius:999px">AI Coding 心得分享</p>
+<div style="width:1040px;display:flex;flex-direction:column;gap:36px">
+<h1 style="font-size:96px;font-weight:900;line-height:1.3;color:#2E3A33">從寫程式，<br>到和 AI 一起開發</h1>
+<p style="font-size:40px;line-height:1.5;color:#4E5A52">一位前端工程師的使用心得、日常實戰與工作方式的改變</p>
+</div>
+<p style="align-self:flex-start;font-size:30px;font-weight:500;color:#2E3A33;background:#FFFDF8;padding:14px 36px;border-radius:999px;box-shadow:0 10px 28px rgba(46,58,51,0.10)">[講者姓名]｜前端工程師</p>
+</section>
+<section id="journey" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:48px">
+<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"/><circle cx="1545" cy="120" r="20" fill="#F7CFA8"/><circle cx="1838" cy="420" r="8" fill="#BFDCC8"/><circle cx="1866" cy="452" r="8" fill="#BFDCC8"/><circle cx="1838" cy="484" r="8" fill="#BFDCC8"/><circle cx="0" cy="1080" r="120" fill="#F8EBC4"/><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"/></svg>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">使用歷程</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.2;color:#2E3A33">我從偶爾使用 AI，到現在大量使用 Agent</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:16px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:80px;height:80px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:40px;font-weight:600;color:#286B4F">1</p></div>
+<hr style="flex:1;border-top:4px dotted #9CC5AA">
+</div>
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#2E3A33">偶爾使用</h3>
+<p style="font-size:30px;line-height:1.5;color:#4E5A52">一開始覺得 AI 很神奇，但有時無法理解需求，或無法真正解決問題</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:80px;height:80px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:40px;font-weight:600;color:#286B4F">2</p></div>
+<hr style="flex:1;border-top:4px dotted #9CC5AA">
+</div>
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#2E3A33">自己研究工具</h3>
+<p style="font-size:30px;line-height:1.5;color:#4E5A52">從偶爾用一下，到開始自己研究這些工具</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:80px;height:80px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:40px;font-weight:600;color:#286B4F">3</p></div>
+<hr style="flex:1;border-top:4px dotted #9CC5AA">
+</div>
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#2E3A33">慢慢發現價值</h3>
+<p style="font-size:30px;line-height:1.5;color:#4E5A52">AI 能協助的事情越來越多</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:80px;height:80px;border-radius:50%;background:#F7CFA8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:40px;font-weight:600;color:#2E3A33">4</p></div>
+<p style="font-size:24px;font-weight:700;color:#2E3A33;background:#F0A35E;padding:6px 20px;border-radius:999px">現在</p>
+</div>
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#2E3A33">日常使用 Agent</h3>
+<p style="font-size:30px;line-height:1.5;color:#4E5A52">大量使用 Claude Code、Codex 等 Agent 工具</p>
+</div>
+</div>
+<div style="align-self:flex-start;display:flex;flex-direction:row;align-items:center;gap:24px;background:#F8EBC4;border-radius:999px;padding:24px 48px 24px 24px">
+<div style="flex:none;width:64px;height:64px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Lightbulb" style="color:#96461A;width:32px;height:32px"></x-icon></div>
+<p style="font-size:30px;font-weight:500;line-height:1.5;color:#2E3A33">中間沒有一個明確的轉捩點，比較像是工具和自己的使用方式一起逐漸改變。</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">02 / 10</p>
+<aside>今天想跟大家分享一下我自己使用 AI Coding 的心得。
+我不是一開始就大量使用 AI。剛接觸的時候，會覺得它很神奇，但有時候也會遇到一些問題。
+例如，有時候它沒有辦法真正理解我要做的事情，或是產出的東西沒辦法解決我的需求。
+所以一開始，我比較像是偶爾使用一下，看看它能不能幫上忙。有時候效果很好，會覺得很驚艷；但有時候又會覺得，好像還是自己做比較快。
+後來我開始自己研究這些工具，慢慢發現 AI 能協助的事情越來越多。
+到了現在，我已經大量使用 Claude Code、Codex 這類 Agent 工具，讓 AI 參與日常開發工作。
+如果要說中間是哪一個瞬間讓我突然改變想法，其實我沒有辦法歸納出一個明確的原因。
+比較像是隨著工具和自己的使用方式逐漸改變，我開始發現，有些以前要自己花很多時間處理的事情，現在可以用不一樣的方式完成。
+這也是我今天想分享的內容。</aside>
+</section>
+<section id="partner" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"/><circle cx="1545" cy="120" r="20" fill="#F7CFA8"/><circle cx="1838" cy="420" r="8" fill="#BFDCC8"/><circle cx="1866" cy="452" r="8" fill="#BFDCC8"/><circle cx="1838" cy="484" r="8" fill="#BFDCC8"/><circle cx="0" cy="1080" r="120" fill="#F8EBC4"/><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"/></svg>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">日常使用方式</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.2;color:#2E3A33">現在，AI 已經是我的日常開發夥伴</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:48px">
+<div style="display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:28px;background:#E3EFE6;border-radius:36px;padding:36px">
+<div style="flex:none;width:72px;height:72px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Lightning" style="color:#286B4F;width:36px;height:36px"></x-icon></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F">簡單的事情</p>
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#2E3A33">直接交給 AI 協助完成</h3>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:28px;background:#FBE3CF;border-radius:36px;padding:36px">
+<div style="flex:none;width:72px;height:72px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Chat" style="color:#96461A;width:36px;height:36px"></x-icon></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#96461A">複雜的事情</p>
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#2E3A33">先跟 AI 討論，釐清方向再決定怎麼做</h3>
+</div>
+</div>
+<p style="font-size:30px;line-height:1.6;color:#4E5A52;padding:0 12px">依照任務內容，決定哪些事情適合交出去，哪些需要自己判斷。</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;background:#FFFDF8;border-radius:36px;padding:40px 48px;box-shadow:0 12px 32px rgba(46,58,51,0.08)">
+<p style="align-self:flex-start;font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 24px;border-radius:999px">AI 參與的日常工作</p>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:center">
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="Code" style="color:#286B4F;width:28px;height:28px"></x-icon></div>
+<p style="font-size:40px;font-weight:500;color:#2E3A33">UI 實作</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:center">
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="Wrench" style="color:#286B4F;width:28px;height:28px"></x-icon></div>
+<p style="font-size:40px;font-weight:500;color:#2E3A33">程式碼調整</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:center">
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="Chat" style="color:#286B4F;width:28px;height:28px"></x-icon></div>
+<p style="font-size:40px;font-weight:500;color:#2E3A33">架構討論</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:center">
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="Search" style="color:#286B4F;width:28px;height:28px"></x-icon></div>
+<p style="font-size:40px;font-weight:500;color:#2E3A33">問題排查</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:center">
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="CheckCircle" style="color:#286B4F;width:28px;height:28px"></x-icon></div>
+<p style="font-size:40px;font-weight:500;color:#2E3A33">測試與驗收</p>
+</div>
+<p style="font-size:24px;line-height:1.5;color:#5E6962">都可能有 AI 協助，但不代表每一項都完全交給 AI</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">03 / 10</p>
+<aside>現在 AI 對我來說，已經不是偶爾拿來問問題的工具，而是日常開發的夥伴。
+我平常會使用 Claude Code、Codex 等 Agent 工具，但不會每一個任務都用完全相同的方式處理。
+簡單的事情，我可能就直接交給 AI 協助完成。
+如果事情比較複雜，我通常會先跟 AI 討論，釐清方向，再決定怎麼做。
+而且我現在使用 AI 的範圍，也不只是產生程式碼。
+像是 UI 實作、程式碼調整、架構規劃、問題排查，以及最後的測試和驗收，都可能涉及 AI 的協助。
+不過，這不代表我會把所有事情都交給 AI。
+我還是會依照任務內容，決定哪些事情適合交出去，哪些事情需要自己判斷。
+接下來我想用兩個實際案例，分享我平常是怎麼使用的。</aside>
+</section>
+<section id="design-modes" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:48px">
+<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"/><circle cx="1545" cy="120" r="20" fill="#F7CFA8"/><circle cx="1838" cy="420" r="8" fill="#BFDCC8"/><circle cx="1866" cy="452" r="8" fill="#BFDCC8"/><circle cx="1838" cy="484" r="8" fill="#BFDCC8"/><circle cx="0" cy="1080" r="120" fill="#F8EBC4"/><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"/></svg>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">UI 開發的兩種情境</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.2;color:#2E3A33">有設計圖和沒有設計圖，我的做法不一樣</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+<div style="display:flex;flex-direction:column;gap:28px;background:#E3EFE6;border-radius:40px;padding:44px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:20px">
+<div style="flex:none;width:64px;height:64px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="CheckCircle" style="color:#286B4F;width:32px;height:32px"></x-icon></div>
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#2E3A33">有設計圖</h3>
+</div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:48px;height:48px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:600;color:#286B4F">1</p></div>
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">提供設計截圖或 Figma 作為參考</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:48px;height:48px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:600;color:#286B4F">2</p></div>
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">讓 AI 依照既有設計協助實作</p>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:28px;background:#FBE3CF;border-radius:40px;padding:44px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:20px">
+<div style="flex:none;width:64px;height:64px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Lightbulb" style="color:#96461A;width:32px;height:32px"></x-icon></div>
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#2E3A33">沒有設計圖</h3>
+</div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:48px;height:48px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:600;color:#96461A">1</p></div>
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">描述功能需求</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:48px;height:48px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:600;color:#96461A">2</p></div>
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">提供文字想法</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:48px;height:48px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:600;color:#96461A">3</p></div>
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">使用 Claude Design 探索不同設計方向</p>
+</div>
+</div>
+</div>
+</div>
+<div style="align-self:flex-start;display:flex;flex-direction:row;align-items:center;gap:24px;background:#F8EBC4;border-radius:999px;padding:24px 48px 24px 24px">
+<div style="flex:none;width:64px;height:64px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Lightbulb" style="color:#96461A;width:32px;height:32px"></x-icon></div>
+<p style="font-size:30px;font-weight:500;line-height:1.5;color:#2E3A33">AI 不只是在規格明確時幫我寫程式，也可以協助還在發想階段的工作。</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">04 / 10</p>
+<aside>因為我是前端工程師，所以我想先分享一個自己平常很有感的情境，就是 UI 開發。
+我發現有沒有設計圖，會影響我使用 AI 的方式。
+如果已經有設計圖，我就可以直接提供截圖，或是使用 Figma 作為參考，讓 AI 根據現有的設計協助實作。
+但如果還沒有設計圖，就不一定要等到設計完全確定才開始。
+我可以先描述功能需求，提供一些文字想法，再使用 Claude Design 協助發想。
+它可以先提供幾種不同的方向，我再從中選擇一個比較符合需求的方向，繼續往下做。
+所以對我來說，AI 不只是在已經有明確規格的情況下幫我寫程式，也可以協助我處理還在發想階段的工作。
+接下來這個案例，就是我實際怎麼把這個流程串起來。</aside>
+</section>
+<section id="case-design" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:48px">
+<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"/><circle cx="1545" cy="120" r="20" fill="#F7CFA8"/><circle cx="1838" cy="420" r="8" fill="#BFDCC8"/><circle cx="1866" cy="452" r="8" fill="#BFDCC8"/><circle cx="1838" cy="484" r="8" fill="#BFDCC8"/><circle cx="0" cy="1080" r="120" fill="#F8EBC4"/><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"/></svg>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">實戰案例一</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.2;color:#2E3A33">從文字想法到可以操作的畫面</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:28px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:12px">
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#F7CFA8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:30px;font-weight:600;color:#2E3A33">1</p></div>
+<p style="font-size:24px;font-weight:700;color:#96461A;background:#FBE3CF;padding:6px 20px;border-radius:999px">我</p>
+</div>
+<div style="height:220px;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#FFFDF8;border:3px dashed #BFDCC8;border-radius:28px;padding:24px">
+<p style="font-size:24px;line-height:1.5;color:#5E6962;text-align:center">[待補截圖：最初的文字需求]</p>
+</div>
+<p style="font-size:30px;font-weight:500;line-height:1.5;color:#2E3A33">描述功能需求，提供文字想法</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:12px">
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#BFDCC8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:30px;font-weight:600;color:#2E3A33">2</p></div>
+<p style="font-size:24px;font-weight:700;color:#286B4F;background:#E3EFE6;padding:6px 20px;border-radius:999px">Claude Design</p>
+</div>
+<div style="height:220px;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#FFFDF8;border:3px dashed #BFDCC8;border-radius:28px;padding:24px">
+<p style="font-size:24px;line-height:1.5;color:#5E6962;text-align:center">[待補截圖：Claude Design 提供的不同方向]</p>
+</div>
+<p style="font-size:30px;font-weight:500;line-height:1.5;color:#2E3A33">產生幾種不同的設計方向</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:12px">
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#F7CFA8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:30px;font-weight:600;color:#2E3A33">3</p></div>
+<p style="font-size:24px;font-weight:700;color:#96461A;background:#FBE3CF;padding:6px 20px;border-radius:999px">我</p>
+</div>
+<div style="height:220px;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#FFFDF8;border:3px dashed #BFDCC8;border-radius:28px;padding:24px">
+<p style="font-size:24px;line-height:1.5;color:#5E6962;text-align:center">[待補截圖：最後選定的設計]</p>
+</div>
+<p style="font-size:30px;font-weight:500;line-height:1.5;color:#2E3A33">自己選擇並確認其中一種方向</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:12px">
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#BFDCC8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:30px;font-weight:600;color:#2E3A33">4</p></div>
+<p style="font-size:24px;font-weight:700;color:#286B4F;background:#E3EFE6;padding:6px 20px;border-radius:999px">Claude Code</p>
+</div>
+<div style="height:220px;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#FFFDF8;border:3px dashed #BFDCC8;border-radius:28px;padding:24px">
+<p style="font-size:24px;line-height:1.5;color:#5E6962;text-align:center">[待補截圖：Claude Code 實作後的畫面]</p>
+</div>
+<p style="font-size:30px;font-weight:500;line-height:1.5;color:#2E3A33">依照選定的方向進行實作</p>
+</div>
+</div>
+<div style="align-self:flex-start;display:flex;flex-direction:row;align-items:center;gap:24px;background:#FFFDF8;border-radius:999px;padding:24px 48px 24px 24px;box-shadow:0 12px 32px rgba(46,58,51,0.08)">
+<p style="font-size:24px;font-weight:700;color:#286B4F;background:#E3EFE6;padding:12px 24px;border-radius:999px">實作完成後</p>
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#F7CFA8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:30px;font-weight:600;color:#2E3A33">5</p></div>
+<p style="font-size:30px;font-weight:500;color:#2E3A33">自己打開畫面實際操作</p>
+<x-shape kind="arrow-right" style="width:48px;height:24px;background:#F0A35E"></x-shape>
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#F7CFA8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:30px;font-weight:600;color:#2E3A33">6</p></div>
+<p style="font-size:30px;font-weight:500;color:#2E3A33">發現落差，先釐清問題，再請 AI 修改</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">05 / 10</p>
+<aside>這個案例是我沒有設計圖時，平常會使用的一種方式。
+一開始，我會先描述功能需求，提供文字想法。
+我不一定會在這個階段就把所有視覺細節都想清楚，而是先讓 Claude Design 提供幾種不同的方向。
+接著，我會自己看過這些方向，選擇其中一個，再確認是不是我要的方向。
+確認沒有問題之後，我就會請 Claude Code 直接進行實作。
+實作完成後，我不會只看 AI 回報說已經完成，就認為事情結束了。
+我會自己打開畫面實際操作，確認做出來的東西是不是符合原本的想法。
+如果發現有落差，我會先自己想清楚問題在哪裡，再把問題描述給 AI，請它繼續修改。
+對我來說，這是一種滿方便的工作方式。
+因為我可以先從一個還沒有完全定型的想法開始，透過 AI 探索方向，再逐步把它做成可以操作的畫面。
+不過，這個過程還是需要我自己做選擇，也需要實際確認結果。
+AI 可以幫忙產生不同的可能性，但最後要做成什麼樣子，還是需要有人判斷。</aside>
+</section>
+<section id="case-catalog" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"/><circle cx="1545" cy="120" r="20" fill="#F7CFA8"/><circle cx="1838" cy="420" r="8" fill="#BFDCC8"/><circle cx="1866" cy="452" r="8" fill="#BFDCC8"/><circle cx="1838" cy="484" r="8" fill="#BFDCC8"/><circle cx="0" cy="1080" r="120" fill="#F8EBC4"/><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"/></svg>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">實戰案例二</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.2;color:#2E3A33">用 AI 整理 UI 元件圖鑑，改善設計溝通</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:64px">
+<div style="display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:12px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#96461A;background:#FBE3CF;padding:8px 24px;border-radius:999px">原本遇到的問題</p>
+<ul style="font-size:30px;line-height:1.5;color:#4E5A52">
+<li>專案沒有明確的 UI 規範</li>
+<li>有些樣式依照既有慣例，有些各自撰寫</li>
+<li>畫面和 PM 想像有落差，容易來回溝通</li>
+</ul>
+</div>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:12px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 24px;border-radius:999px">我用 AI 做的事</p>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:40px;height:40px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:600;color:#286B4F">1</p></div>
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">盤點專案中的 UI 元件</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:40px;height:40px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:600;color:#286B4F">2</p></div>
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">標示使用一致、與各自撰寫樣式的地方</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:40px;height:40px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:600;color:#286B4F">3</p></div>
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">整理成 UI 元件圖鑑</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:40px;height:40px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:600;color:#286B4F">4</p></div>
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">和設計圖不同的地方，在 Git 留言</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:40px;height:40px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:600;color:#286B4F">5</p></div>
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">讓 PM 選擇遵循既有慣例，或建立新規範</p>
+</div>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:20px;background:#FFFDF8;border-radius:36px;padding:40px;box-shadow:0 12px 32px rgba(46,58,51,0.08)">
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:48px;height:48px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="Chat" style="color:#286B4F;width:24px;height:24px"></x-icon></div>
+<p style="font-size:24px;font-weight:700;color:#5E6962">Git Issue 留言示意</p>
+</div>
+<p style="font-size:30px;line-height:1.6;color:#2E3A33">這裡和設計圖不同，專案目前已有既有慣例，可參考 UI 元件圖鑑。請確認要採用哪一種：</p>
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px;background:#FBF6EE;border-radius:999px;padding:10px 28px">
+<div style="flex:none;width:32px;height:32px;background:#FFFDF8;border:3px solid #9CC5AA;border-radius:10px"></div>
+<p style="font-size:30px;font-weight:500;color:#2E3A33">遵循既有慣例</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px;background:#FBF6EE;border-radius:999px;padding:10px 28px">
+<div style="flex:none;width:32px;height:32px;background:#FFFDF8;border:3px solid #9CC5AA;border-radius:10px"></div>
+<p style="font-size:30px;font-weight:500;color:#2E3A33">依照設計稿建立新規範</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:28px">
+<p style="font-size:96px;font-weight:900;line-height:1.1;color:#96461A;white-space:nowrap">1～2 次</p>
+<p style="font-size:30px;line-height:1.5;color:#4E5A52">實際觀察：通常在一至兩次溝通內就可以解決</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">06 / 10</p>
+<aside>另一個我覺得很有感的案例，不只是讓 AI 幫我寫程式，而是讓 AI 幫我整理原本工作中比較麻煩的問題。
+之前有遇過一種情況，就是程式做出來可以正常運作，但畫面和 PM 想像的樣子有落差。
+這個問題不完全是程式有沒有寫對，因為專案本身沒有明確的 UI 規範，有些樣式是依照過去的做法，有些地方則是各自撰寫。
+所以當設計圖和實際畫面不一樣時，有時候就會遇到一個問題：到底應該遵循專案原本的做法，還是應該依照這次的設計建立新的樣式？
+後來我想了一個方法，就是請 AI 幫忙盤點專案裡的 UI 元件。
+我讓它整理目前有哪些元件、使用方式是否一致，以及哪些地方是各自撰寫樣式。
+整理完之後，再把這些資訊做成一份 UI 元件圖鑑。
+這樣遇到設計圖和現有畫面不一樣的地方時，我就可以在 Git 留言，說明這個部分和設計圖不同，但專案目前有既有的慣例，可以參考圖鑑中的哪一個項目。
+如果希望依照設計稿建立新的規範，也可以在 Git Issue 裡面說明，讓 PM 用 checkbox 確認。
+這樣就不需要每次都從頭討論，也能把原本比較模糊的事情，變成有依據、可以確認的選擇。
+以我的經驗，這類溝通通常一至兩次內就可以解決。
+我覺得這個案例很有意思，因為 AI 在這裡不只是幫我產生程式碼，而是協助我整理資訊，讓原本比較模糊的問題更容易被討論和確認。</aside>
+</section>
+<section id="verify" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:48px">
+<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"/><circle cx="1545" cy="120" r="20" fill="#F7CFA8"/><circle cx="1838" cy="420" r="8" fill="#BFDCC8"/><circle cx="1866" cy="452" r="8" fill="#BFDCC8"/><circle cx="1838" cy="484" r="8" fill="#BFDCC8"/><circle cx="0" cy="1080" r="120" fill="#F8EBC4"/><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"/></svg>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:24px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">驗證與除錯</p>
+<h2 style="font-size:96px;font-weight:900;line-height:1.2;color:#2E3A33">「能跑」不等於「<span style="color:#96461A">做對</span>」</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+<div style="display:flex;flex-direction:column;gap:16px;background:#E3EFE6;border-radius:40px;padding:40px 44px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:20px">
+<div style="flex:none;width:64px;height:64px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="CheckCircle" style="color:#286B4F;width:32px;height:32px"></x-icon></div>
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F">檢查一</p>
+</div>
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#2E3A33">功能是否符合需求？</h3>
+<p style="font-size:30px;line-height:1.5;color:#4E5A52">畫面做出來了，不代表真的符合 PM 想要的樣子</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;background:#FBE3CF;border-radius:40px;padding:40px 44px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:20px">
+<div style="flex:none;width:64px;height:64px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Code" style="color:#96461A;width:32px;height:32px"></x-icon></div>
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#96461A">檢查二</p>
+</div>
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#2E3A33">程式碼是否符合架構與專案慣例？</h3>
+<p style="font-size:30px;line-height:1.5;color:#4E5A52">例如狀態該放在 store，還是整理成 composable</p>
+</div>
+</div>
+<div style="align-self:flex-start;display:flex;flex-direction:row;align-items:center;gap:24px;background:#F8EBC4;border-radius:999px;padding:24px 48px 24px 24px">
+<div style="flex:none;width:64px;height:64px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Clock" style="color:#96461A;width:32px;height:32px"></x-icon></div>
+<p style="font-size:30px;font-weight:500;line-height:1.5;color:#2E3A33">AI 幫我完成了很多實作，但審查、除錯與確認成果，還是需要時間。</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">07 / 10</p>
+<aside>前面分享了兩個我平常使用 AI 的實戰案例。
+但大量使用之後，我也慢慢發現一件事情，就是程式能跑，不代表事情真的做對了。
+有時候 AI 產出的東西可以正常執行，但實際結果和需求還是有落差。
+像剛剛提到的 UI 案例，就算畫面已經做出來了，也不代表它真的符合 PM 想要的樣子。
+所以我現在還是會自己確認功能是否符合需求、能不能正常運作。
+另外，我也會看程式碼本身的結構。
+例如，我會在意狀態應該放在 store，還是把某些邏輯整理成 composable，也會注意整體架構是不是符合專案原本的慣例。
+如果 AI 做出來的結構不符合我的想法，我通常會直接告訴它應該怎麼調整，再閱讀修改後的程式碼，確認實際功能。
+所以 AI 確實幫我完成了很多實作工作，但審查、除錯，以及確認成果是否正確，還是需要時間。
+這是我大量使用之後，覺得很實際的一個體會。</aside>
+</section>
+<section id="shift" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"/><circle cx="1545" cy="120" r="20" fill="#F7CFA8"/><circle cx="1838" cy="420" r="8" fill="#BFDCC8"/><circle cx="1866" cy="452" r="8" fill="#BFDCC8"/><circle cx="1838" cy="484" r="8" fill="#BFDCC8"/><circle cx="0" cy="1080" r="120" fill="#F8EBC4"/><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"/></svg>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">工作重心的改變</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.2;color:#2E3A33">現在很少手寫程式碼了，我的工作重心也改變了</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;background:#EFEAE0;border-radius:36px;padding:36px 40px">
+<div style="flex:none;width:64px;height:64px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Code" style="color:#5E6962;width:32px;height:32px"></x-icon></div>
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#5E6962">以前比較常做</p>
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#4E5A52">親自撰寫程式碼</h3>
+</div>
+<x-shape kind="arrow-right" style="align-self:center;width:64px;height:32px;background:#F0A35E"></x-shape>
+<div style="flex:1.7;display:flex;flex-direction:column;gap:12px;background:#FFFDF8;border-radius:36px;padding:36px 40px;box-shadow:0 12px 32px rgba(46,58,51,0.08)">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#96461A">現在比較常做</p>
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#2E3A33">規劃架構、測試、審查與驗收</h3>
+<div style="display:flex;flex-direction:column;gap:4px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:40px;height:40px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="Check" style="color:#286B4F;width:24px;height:24px"></x-icon></div>
+<p style="font-size:30px;line-height:1.6;color:#4E5A52">決定程式碼的組織方式</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:40px;height:40px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="Check" style="color:#286B4F;width:24px;height:24px"></x-icon></div>
+<p style="font-size:30px;line-height:1.6;color:#4E5A52">閱讀 AI 產出的程式碼</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:16px">
+<div style="flex:none;width:40px;height:40px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="Check" style="color:#286B4F;width:24px;height:24px"></x-icon></div>
+<p style="font-size:30px;line-height:1.6;color:#4E5A52">確認功能與實際成果</p>
+</div>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:16px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 24px;border-radius:999px">仍然重視的事情</p>
+<div style="align-self:stretch;display:flex;flex-direction:row;gap:20px">
+<div style="flex:1;background:#E3EFE6;border-radius:28px;padding:20px 28px">
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">想法能不能變成真正可以使用的工具或系統</p>
+</div>
+<div style="flex:1;background:#E3EFE6;border-radius:28px;padding:20px 28px">
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">原本的問題是否獲得解決</p>
+</div>
+<div style="flex:1;background:#E3EFE6;border-radius:28px;padding:20px 28px">
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">整體架構是否規劃得好</p>
+</div>
+<div style="flex:1;background:#E3EFE6;border-radius:28px;padding:20px 28px">
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">程式碼是否方便後續維護</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">08 / 10</p>
+<aside>這也讓我想到，AI 對我最大的改變，其實不只是效率提升，而是我現在工作的方式跟以前不太一樣了。
+我現在已經很少手寫程式碼，更多時間是在測試或規劃架構。
+像是 UI 外觀，我可以交給 AI 協助實作；但程式碼要怎麼組織、哪些狀態要放在哪裡，以及怎麼符合專案原本的慣例，這些我還是會自己掌握。
+我會先決定方向，再讓 AI 按照這個方向完成實作。
+做完之後，我再閱讀程式碼、確認功能，以及檢查最後的成果。
+所以我覺得自己的工作，正在從親手完成每一段程式碼，轉變成花更多時間決定方向、規劃架構，以及確認最後做出來的東西是不是正確。
+不過，對於這個改變，我目前其實還在適應。
+一方面，我確實享受到效率提升；另一方面，當自己手寫程式碼的比例越來越少，工作方式和以前不一樣了，這也是我正在經歷的變化。
+我現在還沒有一個很明確的結論，只能說，這是我目前使用 AI Coding 時很真實的感受。</aside>
+</section>
+<section id="adapting" data-transition="fade" style="background:#E3EFE6;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:48px">
+<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#F1F7F2"/><circle cx="1545" cy="120" r="20" fill="#F7CFA8"/><circle cx="1838" cy="420" r="8" fill="#9CC5AA"/><circle cx="1866" cy="452" r="8" fill="#9CC5AA"/><circle cx="1838" cy="484" r="8" fill="#9CC5AA"/><circle cx="0" cy="1080" r="120" fill="#F8EBC4"/><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"/></svg>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:24px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#FFFDF8;padding:8px 28px;border-radius:999px">新的開發方式</p>
+<h2 style="font-size:96px;font-weight:900;line-height:1.3;color:#2E3A33">我還是喜歡開發，<br>只是現在完成事情的方法不同了。</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+<div style="display:flex;flex-direction:row;align-items:flex-start;gap:28px;background:#FFFDF8;border-radius:36px;padding:40px">
+<div style="flex:none;width:72px;height:72px;border-radius:50%;background:#F8EBC4;display:flex;align-items:center;justify-content:center"><x-icon name="Lightbulb" style="color:#96461A;width:36px;height:36px"></x-icon></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#2E3A33">更容易開始嘗試</h3>
+<p style="font-size:30px;line-height:1.5;color:#4E5A52">以前遇到不熟悉的領域，容易卡在不知道怎麼開始；現在可以先動手，再逐步確認與修正</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;align-items:flex-start;gap:28px;background:#FFFDF8;border-radius:36px;padding:40px">
+<div style="flex:none;width:72px;height:72px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="Verified" style="color:#286B4F;width:36px;height:36px"></x-icon></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:40px;font-weight:700;line-height:1.3;color:#2E3A33">仍然需要判斷、測試與驗證</h3>
+<p style="font-size:30px;line-height:1.5;color:#4E5A52">享受效率提升，但對工作方式的改變，我還在適應</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">09 / 10</p>
+<aside>除了工作流程改變之外，我覺得還有一個很明顯的差異，就是面對不熟悉的領域時，現在比較容易開始嘗試。
+以前遇到不熟悉的事情，可能會卡在不知道從哪裡開始。
+現在可以先借助 AI 跨過部分門檻，讓自己有機會先動手做，再慢慢確認方向。
+當然，這不代表所有陌生領域的問題都可以直接交給 AI 解決。
+我還是需要判斷它產出的結果，也需要確認做出來的東西是否符合需求。
+但至少對我來說，開始嘗試的門檻降低了。
+我之前也想過，現在很少自己手寫程式碼，工作方式和以前差很多。
+不過，我還是喜歡開發，也喜歡把腦中的想法變成真正能使用的工具或系統。
+只是現在完成事情的方法不同了。
+所以如果要說我目前對 AI Coding 有什麼明確結論，其實還沒有。
+我享受效率提升，也還在適應自己的角色和工作方式正在改變這件事。</aside>
+</section>
+<section id="closing" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:48px">
+<svg aria-label="插圖：對話氣泡" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1440 620 C1580 540 1810 560 1900 680 C1990 800 1960 1000 1880 1080 L1360 1080 C1300 990 1320 700 1440 620 Z" fill="#E3EFE6"/><circle cx="1360" cy="640" r="48" fill="#F8EBC4"/><rect x="1480" y="720" width="300" height="150" rx="56" fill="#F7CFA8"/><path d="M1700 860 L1745 920 L1650 866 Z" fill="#F7CFA8"/><circle cx="1570" cy="795" r="16" fill="#FFFDF8"/><circle cx="1630" cy="795" r="16" fill="#FFFDF8"/><circle cx="1690" cy="795" r="16" fill="#FFFDF8"/><circle cx="1830" cy="610" r="26" fill="none" stroke="#F0A35E" stroke-width="8"/><circle cx="0" cy="1080" r="120" fill="#F8EBC4"/></svg>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:24px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">以上就是我目前的 AI Coding 心得</p>
+<h2 style="font-size:96px;font-weight:900;line-height:1.3;color:#2E3A33">這是我目前的使用方式，<br>也還在持續摸索。</h2>
+</div>
+<p style="align-self:flex-start;font-size:40px;font-weight:700;color:#2E3A33;background:#F7CFA8;padding:16px 48px;border-radius:999px">謝謝大家</p>
+<p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">10 / 10</p>
+<aside>以上就是我目前使用 AI Coding 的一些心得。
+我今天分享的不是一套標準流程，也不是要告訴大家應該怎麼使用 AI。
+只是分享自己從一開始偶爾使用，到現在大量使用 Agent 的過程，以及實際開發中遇到的情況。
+對我來說，AI 確實讓很多事情變得更容易開始，也讓我能把更多想法變成真正可以使用的東西。
+但同時，自己仍然需要決定方向、確認需求，以及驗證最後的成果。
+而且我的工作方式也還在改變當中，目前還沒有一個很完整的結論。
+今天就先分享這些，希望能讓大家多了解一種實際使用 AI Coding 的經驗。謝謝。</aside>
+</section>
+</main>
+
+<nav class="ui" id="ui" aria-label="投影片控制">
+  <button type="button" class="arrow" id="prev" aria-label="上一頁">‹</button>
+  <div class="pages" id="pages"></div>
+  <span class="count" id="count">1 / 10</span>
+  <button type="button" class="arrow" id="next" aria-label="下一頁">›</button>
+  <button type="button" id="fsBtn" title="快捷鍵 F">全螢幕</button>
+</nav>
+<div class="progress" id="progress"></div>
+
+<!-- 講者視窗（按 S 開啟）的內容；在主畫面不會執行 -->
+<template id="presenterTpl">
+<style>
+  body.presenter {
+    display: flex; flex-direction: column; height: 100vh;
+    background: #FBF6EE; color: #2E3A33;
+  }
+  [hidden] { display: none !important; }
+  .bar {
+    flex: none; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 14px 24px; background: #FFFDF8;
+    box-shadow: 0 2px 12px rgba(46, 58, 51, 0.08);
+  }
+  .pos { font-family: 'Fredoka', Arial, sans-serif; font-size: 30px; font-weight: 600; color: #286B4F; }
+  .pos .of { font-size: 18px; font-weight: 500; color: #5E6962; }
+  .timer { display: flex; align-items: center; gap: 12px; font-family: 'Fredoka', Arial, sans-serif; font-size: 30px; font-weight: 500; }
+  .tools { display: flex; gap: 6px; flex-wrap: wrap; }
+  .bar button {
+    border: 0; border-radius: 999px; padding: 8px 16px; cursor: pointer;
+    background: #E3EFE6; color: #286B4F;
+    font: 700 15px 'Chiron GoRound TC', Arial, sans-serif;
+  }
+  .bar button:hover { background: #BFDCC8; }
+  .bar button[aria-pressed="true"] { background: #286B4F; color: #FFFDF8; }
+  .layout {
+    flex: 1; min-height: 0;
+    display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr); gap: 24px;
+    padding: 24px;
+  }
+  .script {
+    overflow: auto; padding: 28px 40px;
+    background: #FFFDF8; border-radius: 24px;
+    box-shadow: 0 8px 24px rgba(46, 58, 51, 0.08);
+  }
+  .title-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin: 0 0 20px; }
+  .script h1 { margin: 0; font-size: 20px; font-weight: 700; color: #286B4F; }
+  .badge {
+    font-size: 13px; font-weight: 700; color: #96461A; background: #FBE3CF;
+    padding: 3px 12px; border-radius: 999px;
+  }
+  #pnotes p { margin: 0 0 0.75em; line-height: 1.85; }
+  #pnotes p.muted { color: #5E6962; }
+  .editbar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    margin: 0 0 16px; padding: 12px 14px;
+    background: #F8EBC4; border-radius: 16px;
+  }
+  .editbar .status { flex: 1; min-width: 220px; font-size: 14px; line-height: 1.5; color: #4E5A52; }
+  .editbar button {
+    border: 0; border-radius: 999px; padding: 7px 14px; cursor: pointer;
+    background: #FFFDF8; color: #2E3A33;
+    font: 700 14px 'Chiron GoRound TC', Arial, sans-serif;
+  }
+  .editbar button:hover { background: #FBE3CF; }
+  #peditor {
+    display: block; width: 100%; min-height: 60vh; resize: vertical;
+    padding: 16px 18px;
+    border: 2px solid #BFDCC8; border-radius: 16px; outline: none;
+    background: #FFFDF8; color: #2E3A33;
+    font-family: 'Chiron GoRound TC', Arial, sans-serif; line-height: 1.85;
+  }
+  #peditor:focus { border-color: #286B4F; }
+  .side { display: flex; flex-direction: column; gap: 10px; min-width: 0; overflow: auto; }
+  .label { margin: 4px 0 0; font-size: 15px; font-weight: 700; letter-spacing: 1px; color: #5E6962; }
+  .thumb {
+    position: relative; flex: none; width: 100%; aspect-ratio: 16 / 9; overflow: hidden;
+    background: #FBF6EE; border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(46, 58, 51, 0.14);
+  }
+  .thumb .deck {
+    left: 0; top: 0; transform: scale(var(--ts, 0.25)); transform-origin: 0 0;
+    box-shadow: none; pointer-events: none;
+  }
+  .thumb.empty::after {
+    content: '已經是最後一頁'; position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: #5E6962;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .side { display: none; }
+  }
+</style>
+<header class="bar">
+  <div class="pos"><span id="pnum">1</span><span class="of" id="ptotal"> / 10</span></div>
+  <div class="timer"><span id="ptime">00:00</span><button type="button" id="preset">計時重設</button></div>
+  <div class="tools">
+    <button type="button" id="pedit" aria-pressed="false">編輯逐字稿</button>
+    <button type="button" id="fminus" aria-label="字縮小">A−</button>
+    <button type="button" id="fplus" aria-label="字放大">A＋</button>
+    <button type="button" id="pprev">‹ 上一頁</button>
+    <button type="button" id="pnextb">下一頁 ›</button>
+  </div>
+</header>
+<div class="layout">
+  <section class="script" id="pscript">
+    <div class="title-row">
+      <h1 id="ptitle"></h1>
+      <span class="badge" id="pbadge" hidden>已修改</span>
+    </div>
+    <div class="editbar" id="peditbar" hidden>
+      <span class="status" id="pstatus">直接修改下面的文字，段落之間空一行。修改會自動存在這台電腦的瀏覽器。</span>
+      <button type="button" id="prestore">還原這頁原稿</button>
+      <button type="button" id="pdlhtml">下載更新後的簡報</button>
+    </div>
+    <textarea id="peditor" aria-label="編輯這一頁的逐字稿" hidden></textarea>
+    <div id="pnotes"></div>
+  </section>
+  <div class="side">
+    <p class="label">目前畫面</p>
+    <div class="thumb" id="tcur"><div class="deck"></div></div>
+    <p class="label">下一張</p>
+    <div class="thumb" id="tnext"><div class="deck"></div></div>
+  </div>
+</div>
+<script>
+(function () {
+  function $(id) { return document.getElementById(id); }
+  function api() {
+    try { return window.opener && !window.opener.closed ? window.opener.deckApi : null; }
+    catch (e) { return null; }
+  }
+  var notesEl = $('pnotes');
+  var editor = $('peditor');
+  var editBar = $('peditbar');
+  var statusEl = $('pstatus');
+  var badge = $('pbadge');
+  var editBtn = $('pedit');
+  var editing = false;
+  var size = 28;
+
+  function applySize() {
+    notesEl.style.fontSize = size + 'px';
+    editor.style.fontSize = size + 'px';
+  }
+  $('fminus').onclick = function () { size = Math.max(18, size - 2); applySize(); };
+  $('fplus').onclick = function () { size = Math.min(48, size + 2); applySize(); };
+  applySize();
+
+  var t0 = Date.now();
+  var timeEl = $('ptime');
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  setInterval(function () {
+    var s = Math.floor((Date.now() - t0) / 1000);
+    timeEl.textContent = pad(Math.floor(s / 60)) + ':' + pad(s % 60);
+  }, 500);
+  $('preset').onclick = function () { t0 = Date.now(); timeEl.textContent = '00:00'; };
+
+  $('pprev').onclick = function () { var a = api(); if (a) a.prev(); };
+  $('pnextb').onclick = function () { var a = api(); if (a) a.next(); };
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target && e.target.tagName === 'TEXTAREA') return; // 編輯時方向鍵只移動游標
+    var a = api();
+    if (!a) return;
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': case 'PageDown': case ' ':
+        e.preventDefault(); a.next(); break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+        e.preventDefault(); a.prev(); break;
+    }
+  });
+
+  // ---- 編輯逐字稿 ----
+  function setEditing(on) {
+    editing = on;
+    editBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    editBtn.textContent = on ? '完成編輯' : '編輯逐字稿';
+    editBar.hidden = !on;
+    editor.hidden = !on;
+    notesEl.hidden = on;
+    var a = api();
+    if (a) a.refreshPresenter();
+    if (on) editor.focus();
+  }
+  editBtn.onclick = function () { setEditing(!editing); };
+  editor.addEventListener('input', function () {
+    var a = api();
+    if (!a) { statusEl.textContent = '找不到投影片視窗，這次修改沒有存到。'; return; }
+    var r = a.saveNotes(editor.value);
+    badge.hidden = !r.edited;
+    statusEl.textContent = r.stored
+      ? '已自動儲存（只存在這台電腦的這個瀏覽器）。要保留到檔案，請按右邊的下載。'
+      : '這個瀏覽器無法自動儲存，請記得按右邊的下載保留修改。';
+  });
+  $('prestore').onclick = function () {
+    var a = api();
+    if (!a) return;
+    if (!confirm('要把這一頁還原成原本的逐字稿嗎？')) return;
+    a.resetNotes();
+    statusEl.textContent = '這一頁已還原成原稿。';
+  };
+  function download(name, text, type) {
+    var blob = new Blob([text], { type: type + ';charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+    statusEl.textContent = '已下載「' + name + '」，請到「下載」資料夾找檔案。';
+  }
+  $('pdlhtml').onclick = function () {
+    var a = api();
+    if (a) download('ai-coding-slides.html', a.buildHtml(), 'text/html');
+  };
+
+  // ---- 縮圖 ----
+  function fitThumbs() {
+    Array.prototype.forEach.call(document.querySelectorAll('.thumb'), function (t) {
+      t.style.setProperty('--ts', t.clientWidth / 1920);
+    });
+  }
+  window.addEventListener('resize', fitThumbs);
+
+  function fill(id, html) {
+    var box = $(id);
+    var d = box.querySelector('.deck');
+    d.innerHTML = html || '';
+    if (d.firstElementChild) d.firstElementChild.classList.add('active');
+    box.classList.toggle('empty', !html);
+  }
+
+  window.render = function (data) {
+    $('pnum').textContent = data.index + 1;
+    $('ptotal').textContent = ' / ' + data.total;
+    $('ptitle').textContent = data.title;
+    badge.hidden = !data.edited;
+    notesEl.innerHTML = '';
+    if (!data.lines.length) {
+      var empty = document.createElement('p');
+      empty.className = 'muted';
+      empty.textContent = '（這頁沒有逐字稿）';
+      notesEl.appendChild(empty);
+    }
+    data.lines.forEach(function (line) {
+      var p = document.createElement('p');
+      p.textContent = line;
+      notesEl.appendChild(p);
+    });
+    editor.value = data.lines.join('\n\n');
+    $('pscript').scrollTop = 0;
+    fill('tcur', data.cur);
+    fill('tnext', data.next);
+    fitThumbs();
+  };
+})();
+</script>
+</template>
+
+<script>
+(function () {
+  // 檔案原本的樣子（還沒被程式改動），「下載更新後的簡報」會以它為底
+  var PRISTINE = '<!doctype html>\n' + document.documentElement.outerHTML;
+
+  var ICONS = {
+    Lightbulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+    Lightning: '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+    Chat: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    Code: '<path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/>',
+    Wrench: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+    Search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    CheckCircle: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/>',
+    Clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+    Check: '<path d="M20 6 9 17l-5-5"/>',
+    Verified: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>'
+  };
+  Array.prototype.forEach.call(document.querySelectorAll('.deck x-icon'), function (el) {
+    var paths = ICONS[el.getAttribute('name')];
+    if (paths) {
+      el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>';
+    }
+  });
+
+  var deck = document.querySelector('.deck');
+  var slides = Array.prototype.filter.call(deck.children, function (el) { return el.tagName === 'SECTION'; });
+  var ui = document.getElementById('ui');
+  var pages = document.getElementById('pages');
+  var count = document.getElementById('count');
+  var progress = document.getElementById('progress');
+  var current = 0;
+  var presenter = null;
+
+  // ---- 逐字稿資料（原稿＋瀏覽器裡的修改）----
+  var STORE_KEY = 'ai-coding-slides:notes';
+  function normalize(text) {
+    return String(text || '').split(/\n+/)
+      .map(function (s) { return s.trim(); })
+      .filter(Boolean)
+      .join('\n');
+  }
+  function asideOf(sec, create) {
+    var a = sec.querySelector(':scope > aside');
+    if (!a && create) { a = document.createElement('aside'); sec.appendChild(a); }
+    return a;
+  }
+  function notesOf(sec) {
+    var a = asideOf(sec, false);
+    return a ? normalize(a.textContent) : '';
+  }
+  function readStore() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { return {}; }
+  }
+  function writeStore(obj) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(obj)); return true; } catch (e) { return false; }
+  }
+  var ORIGINAL = {};
+  slides.forEach(function (sec) { ORIGINAL[sec.id] = notesOf(sec); });
+  (function applyStoredEdits() {
+    var stored = readStore();
+    var changed = false;
+    slides.forEach(function (sec) {
+      if (!(sec.id in stored)) return;
+      var t = normalize(stored[sec.id]);
+      if (t === ORIGINAL[sec.id]) { delete stored[sec.id]; changed = true; return; }
+      asideOf(sec, true).textContent = t;
+    });
+    if (changed) writeStore(stored);
+  })();
+  function isEdited(sec) { return notesOf(sec) !== ORIGINAL[sec.id]; }
+  function saveNotes(text) {
+    var sec = slides[current];
+    var t = normalize(text);
+    asideOf(sec, true).textContent = t;
+    var stored = readStore();
+    if (t === ORIGINAL[sec.id]) delete stored[sec.id]; else stored[sec.id] = t;
+    return { edited: isEdited(sec), stored: writeStore(stored) };
+  }
+  function resetNotes() {
+    var sec = slides[current];
+    asideOf(sec, true).textContent = ORIGINAL[sec.id];
+    var stored = readStore();
+    delete stored[sec.id];
+    writeStore(stored);
+    syncPresenter();
+  }
+  function buildHtml() {
+    var doc = new DOMParser().parseFromString(PRISTINE, 'text/html');
+    Array.prototype.forEach.call(doc.querySelectorAll('script[src]'), function (s) { s.remove(); });
+    slides.forEach(function (sec) {
+      var target = doc.getElementById(sec.id);
+      if (!target) return;
+      var a = target.querySelector(':scope > aside');
+      var t = notesOf(sec);
+      if (!t) { if (a) a.remove(); return; }
+      if (!a) { a = doc.createElement('aside'); target.appendChild(a); }
+      a.textContent = t;
+    });
+    return '<!doctype html>\n' + doc.documentElement.outerHTML + '\n';
+  }
+
+  // 逐頁頁碼按鈕
+  var pageButtons = slides.map(function (slide, n) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = n + 1;
+    btn.setAttribute('aria-label', '第 ' + (n + 1) + ' 頁');
+    btn.addEventListener('click', function () { go(n); });
+    pages.appendChild(btn);
+    return btn;
+  });
+
+  function fit() {
+    var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    deck.style.setProperty('--s', s);
+  }
+
+  function go(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides[current].classList.remove('active');
+    pageButtons[current].removeAttribute('aria-current');
+    current = n;
+    slides[current].classList.add('active');
+    pageButtons[current].setAttribute('aria-current', 'page');
+    count.textContent = (current + 1) + ' / ' + slides.length;
+    progress.style.width = ((current + 1) / slides.length * 100) + '%';
+    if (location.hash !== '#' + (current + 1)) {
+      history.replaceState(null, '', '#' + (current + 1));
+    }
+    syncPresenter();
+  }
+
+  // ---- 講者視窗 ----
+  function slideTitle(sec) {
+    var h = sec.querySelector('h1, h2');
+    return h ? h.textContent.replace(/\s+/g, ' ').trim() : '';
+  }
+  function slideHtml(sec) {
+    var copy = sec.cloneNode(true);
+    copy.classList.remove('active');
+    return copy.outerHTML;
+  }
+  function presenterData() {
+    var sec = slides[current];
+    var next = slides[current + 1];
+    var t = notesOf(sec);
+    return {
+      index: current,
+      total: slides.length,
+      title: slideTitle(sec),
+      lines: t ? t.split('\n') : [],
+      edited: isEdited(sec),
+      cur: slideHtml(sec),
+      next: next ? slideHtml(next) : ''
+    };
+  }
+  function syncPresenter() {
+    if (!presenter || presenter.closed) return;
+    try { if (presenter.render) presenter.render(presenterData()); } catch (e) { /* 視窗已失效 */ }
+  }
+  function openPresenter() {
+    if (presenter && !presenter.closed) { presenter.focus(); syncPresenter(); return; }
+    var w = window.open('', 'ai-coding-presenter', 'width=1280,height=800');
+    if (!w) {
+      alert('瀏覽器擋住了講者視窗。請允許這個檔案開啟彈出式視窗，再按一次 S。');
+      return;
+    }
+    var head = Array.prototype.map.call(
+      document.querySelectorAll('head link, head style'),
+      function (el) { return el.outerHTML; }
+    ).join('\n');
+    var body = document.getElementById('presenterTpl').innerHTML;
+    try {
+      // 結束標籤寫成 <\/…，避免預覽工具（如 Live Server）把這裡誤認成頁面結尾
+      w.document.open();
+      w.document.write('<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">' +
+        '<title>講者視窗｜AI Coding 心得分享<\/title>' + head + '<\/head><body class="presenter">' +
+        body + '<\/body><\/html>');
+      w.document.close();
+    } catch (e) {
+      alert('講者視窗開啟失敗，請關掉舊的講者視窗後再按一次 S。');
+      return;
+    }
+    presenter = w;
+    syncPresenter();
+  }
+  window.deckApi = {
+    next: function () { go(current + 1); },
+    prev: function () { go(current - 1); },
+    go: function (n) { go(n); },
+    refreshPresenter: syncPresenter,
+    saveNotes: saveNotes,
+    resetNotes: resetNotes,
+    buildHtml: buildHtml
+  };
+  window.addEventListener('beforeunload', function () {
+    if (presenter && !presenter.closed) presenter.close();
+  });
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+
+  var hideTimer;
+  function showUi() {
+    ui.classList.remove('hide');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(function () {
+      if (!ui.matches(':hover')) ui.classList.add('hide');
+    }, 2500);
+  }
+
+  document.getElementById('prev').addEventListener('click', function () { go(current - 1); });
+  document.getElementById('next').addEventListener('click', function () { go(current + 1); });
+  document.getElementById('fsBtn').addEventListener('click', toggleFullscreen);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': case 'PageDown': case ' ': case 'Enter':
+        e.preventDefault(); go(current + 1); break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp': case 'Backspace':
+        e.preventDefault(); go(current - 1); break;
+      case 'Home': go(0); break;
+      case 'End': go(slides.length - 1); break;
+      case 'f': case 'F': toggleFullscreen(); break;
+      case 's': case 'S': openPresenter(); break;
+    }
+  });
+
+  // 點畫面左側 30% 回上一頁，其餘往下一頁
+  deck.addEventListener('click', function (e) {
+    if (e.clientX < window.innerWidth * 0.3) go(current - 1); else go(current + 1);
+  });
+
+  var touchX = null;
+  document.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1));
+    touchX = null;
+  });
+
+  window.addEventListener('resize', fit);
+  window.addEventListener('mousemove', showUi);
+  window.addEventListener('hashchange', function () {
+    var n = parseInt(location.hash.slice(1), 10);
+    if (!isNaN(n) && n - 1 !== current) go(n - 1);
+  });
+
+  fit();
+  var start = parseInt(location.hash.slice(1), 10);
+  slides[0].classList.add('active');
+  go(isNaN(start) ? 0 : start - 1);
+  showUi();
+})();
+</script>
+</body>
+</html>
