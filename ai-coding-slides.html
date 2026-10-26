@@ -75,6 +75,7 @@
     padding: 8px 16px; border-radius: 999px; cursor: pointer;
   }
   .ui button:hover { background: #E3EFE6; }
+  .ui #laserBtn, .ui #zoomBtn { padding: 8px 12px; }
   .ui .arrow { padding: 8px 14px; font-size: 18px; line-height: 1; }
   .ui .pages { display: flex; gap: 2px; }
   .ui .pages button {
@@ -97,6 +98,30 @@
     background: #9CC5AA; transition: width .3s ease; z-index: 10;
   }
 
+
+  /* 簡報工具：雷射筆（L）與放大鏡（Z） */
+  .ui button[aria-pressed="true"] { background: #286B4F; color: #FFFDF8; }
+  body.tool-laser .deck, body.tool-zoom .deck { cursor: none; }
+  .laser {
+    position: fixed; left: 0; top: 0; width: 28px; height: 28px; margin: -14px 0 0 -14px;
+    border-radius: 50%; pointer-events: none; z-index: 20; display: none;
+    background: radial-gradient(circle, #FF3B30 0 38%, rgba(255, 59, 48, 0.55) 55%, rgba(255, 59, 48, 0) 72%);
+    box-shadow: 0 0 18px 6px rgba(255, 59, 48, 0.45);
+  }
+  .lens {
+    position: fixed; left: 0; top: 0; width: 520px; height: 520px; margin: -260px 0 0 -260px;
+    border-radius: 50%; overflow: hidden; pointer-events: none; z-index: 9; display: none;
+    border: 6px solid #286B4F; background: #FBF6EE;
+    box-shadow: 0 12px 36px rgba(46, 58, 51, 0.35);
+  }
+  .lens > section { transform-origin: 0 0; }
+  .lens aside { display: none; }
+  .lens-label {
+    position: fixed; left: 0; top: 0; z-index: 9; display: none; pointer-events: none;
+    padding: 2px 12px; border-radius: 999px; background: #286B4F; color: #FFFDF8;
+    font: 500 14px 'Fredoka', Arial, sans-serif; transform: translate(-50%, 0);
+  }
+
   /* 列印／另存 PDF：一頁一張投影片 */
   @page { size: 1920px 1080px; margin: 0; }
   @media print {
@@ -107,7 +132,7 @@
       opacity: 1 !important; visibility: visible !important; transition: none;
       break-after: page; page-break-after: always;
     }
-    .ui, .progress { display: none !important; }
+    .ui, .progress, .laser, .lens, .lens-label { display: none !important; }
   }
 </style>
 </head>
@@ -167,7 +192,7 @@
 <p style="font-size:30px;font-weight:500;line-height:1.5;color:#2E3A33">一開始只是抱著嘗試的心態，看看 Agent 到底能幫上多少忙。</p>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
-<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">02 / 10</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">02 / 11</p>
 <aside>今天想跟大家分享我自己用 AI Coding 的心得。
 
 我一開始接觸 AI 的時候，是從一般的聊天式 AI 開始，主要拿來問問題、查詢資料，或是請它 協助解決一些比較單純的程式問題。
@@ -226,10 +251,14 @@
 <p style="font-size:40px;font-weight:500;color:#2E3A33">問題排查</p>
 </div>
 <div style="display:flex;flex-direction:row;gap:24px;align-items:center">
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="CheckCircle" style="color:#286B4F;width:28px;height:28px"></x-icon></div>
+<p style="font-size:40px;font-weight:500;color:#2E3A33">測試與驗收</p>
+</div>
+<p style="font-size:24px;line-height:1.5;color:#5E6962">都可能有 Agent 協助，但不代表結果一定正確，仍需自己確認與驗證</p>
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
-<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">03 / 10</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">03 / 11</p>
 <aside>
 我平常會依照事情的複雜程度，決定怎麼使用 Agent。
 比較明確、範圍也比較小的工作，我通常會直接交代需求，讓它協助處理；
@@ -240,31 +269,70 @@
 對我來說，使用 AI 的重點不是把所有工作都交出去，而是找到適合讓它協助的部分，減少重複性的工作，把時間留給需求判斷、設計和結果確認。
 接下來，我會分享常用的設計工具，以及在工作中怎麼使用 Agent、中間遇到什麼問題，那最後是如何解決的。</aside>
 </section>
+<section id="claude-design-intro" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:96px 128px 140px;display:flex;flex-direction:column;gap:36px">
+<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"></path><circle cx="1545" cy="120" r="20" fill="#F7CFA8"></circle><circle cx="1838" cy="420" r="8" fill="#BFDCC8"></circle><circle cx="1866" cy="452" r="8" fill="#BFDCC8"></circle><circle cx="1838" cy="484" r="8" fill="#BFDCC8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"></circle></svg>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">Claude Design</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.2;color:#2E3A33">不只聊天，還能在畫布上探索 UI 設計</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:28px;background:#E3EFE6;border-radius:36px;padding:28px 36px">
+<div style="flex:none;width:64px;height:64px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Code" style="color:#286B4F;width:36px;height:36px"></x-icon></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F">怎麼開始</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.3;color:#2E3A33">在 Claude Code 輸入 /design</h3>
+<p style="font-size:26px;line-height:1.5;color:#4E5A52">它會先問我，今天想設計什麼</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:28px;background:#FBE3CF;border-radius:36px;padding:28px 36px">
+<div style="flex:none;width:64px;height:64px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Lightning" style="color:#96461A;width:36px;height:36px"></x-icon></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#96461A">跟一般 AI 不同</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.3;color:#2E3A33">直接產生視覺化的設計</h3>
+<p style="font-size:26px;line-height:1.5;color:#4E5A52">除了對話描述需求，成果會在畫布上呈現，可以繼續調整</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:28px;background:#F8EBC4;border-radius:36px;padding:28px 36px">
+<div style="flex:none;width:64px;height:64px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Lightbulb" style="color:#96461A;width:36px;height:36px"></x-icon></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#96461A">我怎麼用它</p>
+<h3 style="font-size:36px;font-weight:700;line-height:1.3;color:#2E3A33">當作協助思考 UI 的工具</h3>
+<p style="font-size:26px;line-height:1.5;color:#4E5A52">還不確定怎麼排、有幾種方向時先探索，確認後再交給 Claude Code 實作</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">04 / 11</p>
+<aside>接下來想介紹一個我覺得很好用的工具，叫做 Claude Design。
+他的使用方式是直接在 Claude Code 打 /design，他就會問我今天想要設計什麼。
+它跟一般聊天式的 AI 不太一樣，除了可以透過對話描述需求，也可以直接產生視覺化的設計，讓我們在畫布上查看成果，再繼續調整。
+我自己會把它當成一個協助思考 UI 的工具。當我還不確定畫面應該怎麼排，或是有幾種不同的設計方向時，可以先請它協助我探索，而不一定要馬上開始改程式碼。
+</aside>
+</section>
 <section id="design-modes" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:88px 128px 120px;display:flex;flex-direction:column;gap:32px">
 <svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"></path><circle cx="1545" cy="120" r="20" fill="#F7CFA8"></circle><circle cx="1838" cy="420" r="8" fill="#BFDCC8"></circle><circle cx="1866" cy="452" r="8" fill="#BFDCC8"></circle><circle cx="1838" cy="484" r="8" fill="#BFDCC8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"></circle></svg>
 <div style="display:flex;flex-direction:row;align-items:center;gap:24px">
-<p style="flex:none;font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">Claude Design</p>
-<h2 style="font-size:56px;font-weight:700;line-height:1.2;color:#2E3A33">不確定怎麼排版時，先讓 AI 一起探索</h2>
+<p style="flex:none;font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">產出範例</p>
+<h2 style="font-size:56px;font-weight:700;line-height:1.2;color:#2E3A33">給它現況畫面，它會提出另一種配置</h2>
 </div>
 <div style="display:flex;align-items:center;justify-content:center">
 <img src="img/image.png" alt="監測數據分析頁面：左為現況，折線圖被擠壓；右為 Claude Design 建議的另一種配置" style="width:1664px;border-radius:16px;box-shadow:0 12px 32px rgba(46,58,51,0.12)">
 </div>
 <div style="align-self:flex-start;display:flex;flex-direction:row;align-items:center;gap:24px;background:#F8EBC4;border-radius:999px;padding:16px 48px 16px 16px">
 <div style="flex:none;width:56px;height:56px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Lightbulb" style="color:#96461A;width:28px;height:28px"></x-icon></div>
-<p style="font-size:28px;font-weight:500;line-height:1.5;color:#2E3A33">左：現況，折線圖被擠壓　右：Claude Design 提出的另一種配置</p>
+<p style="font-size:28px;font-weight:500;line-height:1.5;color:#2E3A33">左：現況　右：Claude Design 提出的另一種配置　粉色線：繪圖區高度</p>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
-<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">04 / 10</p>
-<aside>接下來想介紹一個我覺得很好用的工具，叫做 Claude Design。
-他的使用方式是直接在Claude code 打 /design
-他就會問我今天想要設計什麼
-它跟一般聊天式的 AI 不太一樣，除了可以透過對話描述需求，也可以直接產生視覺化的設計，讓我們在畫布上查看成果，再繼續調整。
-我自己會把它當成一個協助思考 UI 的工具。當我還不確定畫面應該怎麼排，或是有幾種不同的設計方向時，可以先請它協助我探索，而不一定要馬上開始改程式碼。
-這次就遇到一個實際的問題。
-我們的監測資料分析頁面，原本有地圖跟下方的折線圖。後來新增了多選年度跟比例放大的功能，控制項變多之後，折線圖的高度就被擠壓了。
-當時我不太確定應該怎麼重新分配畫面空間，所以我把目前的畫面跟遇到的問題提供給 Claude Design，請它協助思考排版可以怎麼調整。
-右邊就是我拿來比較的另一種配置方向。透過這樣的方式，我可以先觀察不同的畫面配置，再決定後續的調整方向。
-這也是我覺得它好用的地方：當我知道問題在哪裡，但還沒有明確的解法時，可以先讓 AI 協助我思考，而不是一開始就埋頭修改程式碼。</aside>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">05 / 11</p>
+<aside>這張圖是 Claude Design 的產出範例。
+左邊是修改前的樣子(開放大鏡)，當下方圖表的控制項變多之後，折線圖的高度被擠壓。右邊是 Claude Design 提出的另一種配置。
+圖上粉色的輔助線是 Claude Design 幫我畫上去的，清楚標示出目前折線圖的繪圖區只有 63px，重新排版後變成 201px，高度直接變成三倍，整體視覺好看很多。
+
+設計完之後，它會生成一個連結網址，打開的介面就像 Figma 的畫布，可以直接在畫布上編輯樣式，Claude 那邊也都會知道我改了什麼。不過我都是直接在 Claude 對話視窗請它修改，因為我怕把設計稿弄壞。
+
+重點不是它排得一定比較好，而是我可以先在畫布上看到不同的可能性，再決定要不要往這個方向調整，而不是一開始就埋頭改程式碼。
+方向確認之後，才會交給 Claude Code 實作。
+</aside>
 </section>
 <section id="case-catalog" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
 <svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"></path><circle cx="1545" cy="120" r="20" fill="#F7CFA8"></circle><circle cx="1838" cy="420" r="8" fill="#BFDCC8"></circle><circle cx="1866" cy="452" r="8" fill="#BFDCC8"></circle><circle cx="1838" cy="484" r="8" fill="#BFDCC8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"></circle></svg>
@@ -331,7 +399,7 @@
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
-<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">05 / 10</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">06 / 11</p>
 <aside>
 當時專案有一個常見的問題，就是設計圖跟既有畫面有時候不一致，但又沒有一份完整的 UI 規範可以直接參考，導致最後做出來的畫面跟環工原本想像的不一樣。
 
@@ -398,7 +466,7 @@
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
-<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">06 / 10</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">07 / 11</p>
 <aside>
 前面分享的是 UI 設計與元件整理，接下來再分享一個比較偏向實際開發的案例。
 專案裡有一個縣市地圖的功能，使用 D3.js 來繪製地圖。
@@ -442,7 +510,7 @@
 <p style="font-size:30px;font-weight:500;line-height:1.5;color:#2E3A33">AI 幫我完成了很多實作，但審查、除錯與確認成果，還是需要時間。</p>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
-<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">07 / 10</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">08 / 11</p>
 <aside>前面分享了一個示範和兩個實際的案例。
 不過用多了之後，我也慢慢發現一件事：程式能跑，不代表事情真的做對了。
 AI 做出來的東西可以正常執行，但結果有時候還是跟需求有落差。
@@ -504,7 +572,7 @@ AI 做出來的東西可以正常執行，但結果有時候還是跟需求有�
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
-<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">08 / 10</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">09 / 11</p>
 <aside>這也讓我想到，AI 對我最大的改變，其實不只是效率提升，而是我現在的工作方式跟以前不太一樣了。
 我現在已經很少自己寫程式碼，更多時間是在測試和規劃架構。
 我會先決定方向，再讓 AI 照這個方向做出來。
@@ -535,7 +603,7 @@ AI 做出來的東西可以正常執行，但結果有時候還是跟需求有�
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
-<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">09 / 10</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">10 / 11</p>
 <aside>除了工作流程改變之外，還有一個很明顯的差異，就是遇到不熟悉的領域時，現在比較容易開始動手試。
 以前遇到不熟的東西，可能會卡在不知道從哪裡開始。
 像剛剛地圖那個案例，d3 我不太熟，但還是可以先靠 AI 跨過一部分的門檻，先做出畫面，再慢慢修正方向。
@@ -556,7 +624,7 @@ AI 做出來的東西可以正常執行，但結果有時候還是跟需求有�
 </div>
 <p style="align-self:flex-start;font-size:40px;font-weight:700;color:#2E3A33;background:#F7CFA8;padding:16px 48px;border-radius:999px">謝謝大家</p>
 <p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
-<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">10 / 10</p>
+<p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">11 / 11</p>
 <aside>以上就是我目前用 AI Coding 的一些心得。
 今天分享的不是一套標準流程，也不是要告訴大家應該怎麼用 AI。
 只是分享我自己從偶爾用用，到現在大量使用 Agent 的過程，還有實際開發時遇到的情況。
@@ -570,11 +638,16 @@ AI 做出來的東西可以正常執行，但結果有時候還是跟需求有�
 <nav class="ui" id="ui" aria-label="投影片控制">
   <button type="button" class="arrow" id="prev" aria-label="上一頁">‹</button>
   <div class="pages" id="pages"></div>
-  <span class="count" id="count">1 / 10</span>
+  <span class="count" id="count">1 / 11</span>
   <button type="button" class="arrow" id="next" aria-label="下一頁">›</button>
+  <button type="button" id="laserBtn" aria-pressed="false" aria-label="雷射筆" title="雷射筆（快捷鍵 L）"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="12" cy="12" r="3" fill="currentColor"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></button>
+  <button type="button" id="zoomBtn" aria-pressed="false" aria-label="放大鏡" title="放大鏡（快捷鍵 Z；滾輪調整倍率）"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg></button>
   <button type="button" id="fsBtn" title="快捷鍵 F">全螢幕</button>
 </nav>
 <div class="progress" id="progress"></div>
+<div class="laser" id="laser"></div>
+<div class="lens" id="lens"></div>
+<div class="lens-label" id="lensLabel"></div>
 
 <!-- 講者視窗（按 S 開啟）的內容；在主畫面不會執行 -->
 <template id="presenterTpl">
@@ -661,7 +734,7 @@ AI 做出來的東西可以正常執行，但結果有時候還是跟需求有�
   }
 </style>
 <header class="bar">
-  <div class="pos"><span id="pnum">1</span><span class="of" id="ptotal"> / 10</span></div>
+  <div class="pos"><span id="pnum">1</span><span class="of" id="ptotal"> / 11</span></div>
   <div class="timer"><span id="ptime">00:00</span><button type="button" id="preset">計時重設</button></div>
   <div class="tools">
     <button type="button" id="pedit" aria-pressed="false">編輯逐字稿</button>
@@ -1060,11 +1133,15 @@ AI 做出來的東西可以正常執行，但結果有時候還是跟需求有�
       case 'End': go(slides.length - 1); break;
       case 'f': case 'F': toggleFullscreen(); break;
       case 's': case 'S': openPresenter(); break;
+      case 'l': case 'L': setTool(tool === 'laser' ? null : 'laser'); break;
+      case 'z': case 'Z': setTool(tool === 'zoom' ? null : 'zoom'); break;
+      case 'Escape': setTool(null); break;
     }
   });
 
   // 點畫面左側 30% 回上一頁，其餘往下一頁
   deck.addEventListener('click', function (e) {
+    if (tool === 'zoom') return; // 放大鏡開著時不翻頁，改用鍵盤
     if (e.clientX < window.innerWidth * 0.3) go(current - 1); else go(current + 1);
   });
 
@@ -1083,6 +1160,72 @@ AI 做出來的東西可以正常執行，但結果有時候還是跟需求有�
     var n = parseInt(location.hash.slice(1), 10);
     if (!isNaN(n) && n - 1 !== current) go(n - 1);
   });
+
+  // ---- 雷射筆（L）與放大鏡（Z）----
+  var tool = null;
+  var laserEl = document.getElementById('laser');
+  var lensEl = document.getElementById('lens');
+  var lensLabel = document.getElementById('lensLabel');
+  var laserBtn = document.getElementById('laserBtn');
+  var zoomBtn = document.getElementById('zoomBtn');
+  var zoom = 2, LENS_R = 260, LENS_C = 254, mouse = null, lensCloneOf = null, lensClone = null;
+
+  function setTool(name) {
+    tool = name;
+    document.body.classList.toggle('tool-laser', name === 'laser');
+    document.body.classList.toggle('tool-zoom', name === 'zoom');
+    laserBtn.setAttribute('aria-pressed', name === 'laser');
+    zoomBtn.setAttribute('aria-pressed', name === 'zoom');
+    updateTool();
+  }
+
+  // 放大鏡裡放一份目前投影片的複本，依游標位置平移、縮放
+  function syncLensClone() {
+    var sec = slides[current];
+    if (lensCloneOf === sec) return;
+    lensEl.innerHTML = '';
+    lensClone = sec.cloneNode(true);
+    lensClone.removeAttribute('id');
+    lensClone.className = '';
+    lensClone.setAttribute('aria-hidden', 'true');
+    lensClone.style.cssText += ';position:absolute;left:0;top:0;opacity:1;visibility:visible;transition:none;pointer-events:none';
+    lensEl.appendChild(lensClone);
+    lensCloneOf = sec;
+  }
+
+  function updateTool() {
+    var show = mouse && tool;
+    laserEl.style.display = show && tool === 'laser' ? 'block' : 'none';
+    lensEl.style.display = lensLabel.style.display = show && tool === 'zoom' ? 'block' : 'none';
+    if (!show) return;
+    if (tool === 'laser') {
+      laserEl.style.transform = 'translate(' + mouse.x + 'px,' + mouse.y + 'px)';
+      return;
+    }
+    syncLensClone();
+    var rect = deck.getBoundingClientRect();
+    var s = rect.width / 1920;
+    var px = (mouse.x - rect.left) / s, py = (mouse.y - rect.top) / s;
+    lensEl.style.transform = 'translate(' + mouse.x + 'px,' + mouse.y + 'px)';
+    lensClone.style.transform = 'translate(' + (LENS_C - px * s * zoom) + 'px,' + (LENS_C - py * s * zoom) + 'px) scale(' + (s * zoom) + ')';
+    lensLabel.textContent = zoom.toFixed(1) + '×';
+    lensLabel.style.transform = 'translate(' + mouse.x + 'px,' + (mouse.y + LENS_R + 10) + 'px) translateX(-50%)';
+  }
+
+  // 游標移到底部操作列上時，收起雷射筆／放大鏡，讓按鈕看得到也點得到
+  window.addEventListener('mousemove', function (e) {
+    mouse = e.target.closest && e.target.closest('#ui') ? null : { x: e.clientX, y: e.clientY };
+    updateTool();
+  });
+  document.addEventListener('mouseleave', function () { mouse = null; updateTool(); });
+  window.addEventListener('wheel', function (e) {
+    if (tool !== 'zoom') return;
+    e.preventDefault();
+    zoom = Math.max(1.5, Math.min(5, zoom + (e.deltaY < 0 ? 0.25 : -0.25)));
+    updateTool();
+  }, { passive: false });
+  laserBtn.addEventListener('click', function () { setTool(tool === 'laser' ? null : 'laser'); });
+  zoomBtn.addEventListener('click', function () { setTool(tool === 'zoom' ? null : 'zoom'); });
 
   fit();
   var start = parseInt(location.hash.slice(1), 10);
