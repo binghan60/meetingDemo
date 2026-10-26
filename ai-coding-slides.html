@@ -169,15 +169,19 @@
 <p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
 <p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">02 / 10</p>
 <aside>今天想跟大家分享我自己用 AI Coding 的心得。
-最一開始接觸agent大約是1年前，那時候使用的是免費版的acli rovodev 還有gemini cli
-剛接觸的時候只是覺得它很神奇，因為跟網頁版AI相比網頁版AI只能問比較單純的問題，而且還要一直貼程式碼，如果遇到功能分散在不同的檔案上，要請網頁版AI協助就會比較麻煩。
-agent可以去理解專案中的程式碼架構，然後直接幫我修改程式碼。
-但當時的模型還沒有這麼厲害，經常會把功能做壞或是沒有完成我的需求，經常是抱著姑且一試的心態，所以一開始我只是偶爾用一下，看看它能不能幫上忙。效果好的時候會很驚艷，但也有些時候會覺得，好像還是自己做比較快。
-後來各家模型一直改進，慢慢發現 AI 能幫上忙的地方越來越多。
-到了現在，我主要在用的是 Claude Code，讓 AI 參與日常的開發工作。
-如果要問是哪一個瞬間讓我改變想法，其實我說不出一個明確的原因。
-比較像是工具一直在變，我自己的用法也跟著變，慢慢發現有些以前要花很多時間處理的事情，現在可以換一種方式完成。
-這也是我今天想分享的內容。</aside>
+
+我一開始接觸 AI 的時候，是從一般的聊天式 AI 開始，主要拿來問問題、查詢資料，或是請它 協助解決一些比較單純的程式問題。
+後來接觸agent大約是1年前，那時候使用的是免費版的acli rovodev 還有gemini cli
+跟一般聊天式的 AI 相比，Agent 可以直接讀取專案中的程式碼，理解不同檔案之間的關係，並協助修改實際的專案內容。
+不過，當時的模型還沒有那麼成熟，有時候不但沒辦法完整理解需求，甚至可能把原本正常的功能改壞。
+所以那個時候，我其實只是抱著嘗試的心態，看看 Agent 到底能幫上多少忙。
+
+後來各家模型一直改進，慢慢發現 Agent 能幫上忙的地方越來越多。
+當我發現它能協助處理越來越多實際的開發任務之後，使用頻率也就越來越高。
+
+現在我主要在用的是 Claude Code，已經把它當成日常開發工作中的協作工具。
+
+</aside>
 </section>
 <section id="partner" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
 <svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"></path><circle cx="1545" cy="120" r="20" fill="#F7CFA8"></circle><circle cx="1838" cy="420" r="8" fill="#BFDCC8"></circle><circle cx="1866" cy="452" r="8" fill="#BFDCC8"></circle><circle cx="1838" cy="484" r="8" fill="#BFDCC8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"></circle></svg>
@@ -230,10 +234,10 @@ agent可以去理解專案中的程式碼架構，然後直接幫我修改程式
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
 <p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">03 / 10</p>
-<aside>現在 AI 對我來說，已經不是偶爾拿來問問題的工具，而是日常開發的一部分。
+<aside>
 我平常會依照事情的複雜程度，決定怎麼使用 AI。
 比較明確、範圍也比較小的工作，我通常會直接交代需求，讓它協助處理；
-如果是牽涉到多個功能、既有架構，或是需要考慮不同做法的事情，我會先跟 AI 討論，確認方向之後再開始實作。
+如果是牽涉到多個元件、資料管理方式，或是需要考慮整體架構的功能，我會先跟 AI 討論，確認方向之後再開始實作。
 實際使用的範圍也不只是寫程式。
 例如 UI 實作，可以請 AI 協助把需求轉成畫面；調整程式碼時，可以先請它分析現有的寫法，再評估怎麼修改比較合適。遇到問題時，也可以請它協助分析可能的原因，縮小排查範圍。
 不過，這些工作有 AI 協助，不代表結果就一定正確。它提出的修改方式可能不符合專案原本的設計，也可能忽略需求中的細節，所以我還是需要確認修改內容，並實際驗證功能。
@@ -332,10 +336,11 @@ agent可以去理解專案中的程式碼架構，然後直接幫我修改程式
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
 <p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">05 / 10</p>
-<aside>接下來分享一個實際工作上的案例。
-專案之前遇過一種情況：環工有提供設計圖，但設計圖中的某些元件，其實在專案裡已經有既有的使用慣例，只是環工可能不清楚，導致最後做出來的畫面跟環工原本想像的不一樣。
-因為專案本身沒有明確的 UI 規範，有些樣式是沿用以前的做法，有些地方則是各自撰寫。
-所以當設計圖跟實際畫面不一樣時，就會遇到一個問題：到底要遵循專案原本的做法，還是依照這次的設計建立新的樣式？
+<aside>
+當時專案有一個常見的問題，就是設計圖跟既有畫面有時候不一致，但又沒有一份完整的 UI 規範可以直接參考，導致最後做出來的畫面跟環工原本想像的不一樣。
+
+當遇到這種情況時，就需要反覆確認，到底應該沿用原本的樣式，還是依照這次的設計稿調整。
+
 後來我請 AI 幫忙盤點專案裡的 UI 元件，整理目前有哪些元件、用法是否一致，以及哪些地方使用了不同的樣式，再把這些資訊整理成一份 UI 元件圖鑑。
 之後遇到設計圖跟現有畫面不一樣的地方，我就可以在 Issue 裡說明差異，並附上可以參考的元件規範，讓環工選擇要遵循既有慣例，還是依照設計稿建立新的規範。
 使用這個方法之前，這類問題經常需要來回溝通五次以上。而且在溝通過程中，很多畫面細節很難只靠文字說清楚，不太可能每個項目的字體、顏色、間距、圓角，都逐一描述清楚。
@@ -344,6 +349,7 @@ agent可以去理解專案中的程式碼架構，然後直接幫我修改程式
 第一，從 UI 元件圖鑑中挑選符合需求的既有樣式。
 第二，如果設計圖有新的需求，就把這個樣式加入圖鑑，作為新的規範。
 這樣一來，原本需要反覆確認、很難用文字說清楚的細節，就有了具體的參考依據，也能減少來回溝通的次數。
+除此之外也可以將專案的 UI 列管，讓樣式逐步收斂，避免樣式版本越來越多種。
 我覺得這個案例很有意思，因為 AI 在這裡不只是幫我寫程式，而是協助我整理資訊，把原本不容易說清楚的問題，轉變成有依據、可以選擇，也更容易達成共識的流程。</aside>
 </section>
 <section id="case-map" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
@@ -397,14 +403,17 @@ agent可以去理解專案中的程式碼架構，然後直接幫我修改程式
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
 <p style="position:absolute;right:128px;bottom:64px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">06 / 10</p>
-<aside>再分享另一個工作上的案例。
-專案裡有一個縣市地圖的功能，是用 d3.js 計算座標畫出來的。老實說這塊我不太熟，只知道它是把座標算出來，拼成一張地圖。
-這張地圖會標出很多開發案場的點位，但畫面只會顯示這個縣市的範圍。
-問題是，有些案場雖然歸這個縣市管，實際位置卻在很遠的地方，像是高速公路，或是離岸風機。
-（畫面：AI 做的初版地圖畫面）
-PM 開會前有先給一份簡報，我預習的時候發現了這個問題，就先請 AI 做了一個初版畫面，帶去會議上當討論的素材。
-如果要先去讀 d3.js 的官方文件，要花很久的時間；有 AI 幫忙，我很快就能上手，先做出一個可以討論的畫面。
-會議上大家看著畫面討論，PM 建議加上拖拉和縮放的功能，這個問題就直接在會議上解決了。
+<aside>
+前面分享的是 UI 設計與元件整理，接下來再分享一個比較偏向實際開發的案例。
+專案裡有一個縣市地圖的功能，使用 D3.js 來繪製地圖。
+
+這張地圖會標出很多開發案場的點位，但舊版的畫面只會顯示這個縣市的範圍。
+就會遇到一個問題，有些案場雖然歸這個縣市管，實際位置卻在很遠的地方，像是高速公路，或是離岸風機，如果只顯示當一縣市的範圍，那麼地圖上就看不到那些案場
+
+當時我先看過 環工 提供的需求簡報，也想到了一個可能的解決方向，但如果要先去讀 d3.js 的官方文件，要花很久的時間；有 AI 幫忙，我很快就能上手，先做出一個可以討論的畫面。讓地圖範圍涵蓋所有案場，但是地圖會因此縮小，我不確定這樣的地圖呈現方式是否符合需求。
+
+直接把初版畫面再會議上展示併討論，環工 覺得這個方案可行，建議再加上拖拉和縮放的功能，這個問題就直接在會議上解決了。
+
 如果沒有先用 AI 做出畫面帶去討論，我想這個問題可能要溝通很多次才會定案。
 這件事讓我很深刻地感受到，遇到不熟悉的領域時，AI 讓我更容易開始嘗試。</aside>
 </section>
