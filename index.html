@@ -621,13 +621,13 @@
 <p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">結語</p>
 <h2 style="font-size:64px;font-weight:700;line-height:1.2;color:#2E3A33">文字說不清楚的事，先讓它看得見</h2>
 </div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:48px">
-<div style="display:flex;flex-direction:column;gap:28px;background:#FBE3CF;border-radius:36px;padding:56px 52px">
+<div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:48px">
+<div style="display:flex;flex-direction:column;justify-content:center;gap:28px;background:#FBE3CF;border-radius:36px;padding:56px 52px">
 <p style="align-self:flex-start;font-size:26px;font-weight:700;letter-spacing:2px;color:#96461A;background:#FFFDF8;padding:8px 28px;border-radius:999px">案例一</p>
 <h3 style="font-size:56px;font-weight:700;line-height:1.3;color:#2E3A33">UI 元件圖鑑</h3>
 <p style="font-size:38px;line-height:1.5;color:#2E3A33">有了具體參考，環工可以直接選擇</p>
 </div>
-<div style="display:flex;flex-direction:column;gap:28px;background:#E3EFE6;border-radius:36px;padding:56px 52px">
+<div style="display:flex;flex-direction:column;justify-content:center;gap:28px;background:#E3EFE6;border-radius:36px;padding:56px 52px">
 <p style="align-self:flex-start;font-size:26px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#FFFDF8;padding:8px 28px;border-radius:999px">案例二</p>
 <h3 style="font-size:56px;font-weight:700;line-height:1.3;color:#2E3A33">地圖初版畫面</h3>
 <p style="font-size:38px;line-height:1.5;color:#2E3A33">直接針對畫面討論，不必各自想像</p>
@@ -635,7 +635,7 @@
 </div>
 <div style="display:flex;flex-direction:row;align-items:center;gap:28px;background:#F8EBC4;border-radius:999px;padding:28px 56px 28px 28px">
 <div style="flex:none;width:72px;height:72px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Lightbulb" style="color:#96461A;width:36px;height:36px"></x-icon></div>
-<p style="font-size:34px;font-weight:500;line-height:1.5;color:#2E3A33">AI 幫我更快整理、做出雛形；結果對不對，還是要自己確認與驗證</p>
+<p style="font-size:34px;font-weight:500;line-height:1.5;color:#2E3A33">AI 幫我更快整理、做出雛形</p>
 </div>
 <p style="position:absolute;left:128px;bottom:32px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
 <p style="position:absolute;right:128px;bottom:32px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">09 / 10</p>
@@ -644,27 +644,24 @@
 
 這兩個案例，一個是整理 UI 元件圖鑑，一個是先做出地圖的初版畫面，看起來不太一樣，但有個共同點：原本有些問題很難只靠文字說清楚。
 
-只有文字的時候，雙方容易各自想像。有了可以直接看的畫面，或是一份整理好的圖鑑，大家就有共同的參考依據，可以針對具體內容討論，而不是猜對方的意思。
-
-對我來說，AI 幫我更快整理想法、做出雛形，讓原本不容易討論的事情變得比較具體。
-
-不過這不代表可以直接採用 AI 的結果。方向合不合理、程式碼對不對、功能能不能用，還是要自己判斷、自己測試。
-
-我自己也還在摸索，怎樣用 AI 才能讓開發流程更順，而不是為了用而用。</aside>
+我的專案夥伴都在衡陽辦，平常討論很多時候只能靠文字，雙方容易各自想像。有了可以直接看的畫面，或是一份整理好的圖鑑，大家就有共同的參考依據，可以針對具體內容討論，而不是猜對方的意思。
+</aside>
 </section>
-<section id="closing" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:48px">
+<section id="closing" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:48px">
 <svg aria-label="插圖：對話氣泡" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1440 620 C1580 540 1810 560 1900 680 C1990 800 1960 1000 1880 1080 L1360 1080 C1300 990 1320 700 1440 620 Z" fill="#E3EFE6"></path><circle cx="1360" cy="640" r="48" fill="#F8EBC4"></circle><rect x="1480" y="720" width="300" height="150" rx="56" fill="#F7CFA8"></rect><path d="M1700 860 L1745 920 L1650 866 Z" fill="#F7CFA8"></path><circle cx="1570" cy="795" r="16" fill="#FFFDF8"></circle><circle cx="1630" cy="795" r="16" fill="#FFFDF8"></circle><circle cx="1690" cy="795" r="16" fill="#FFFDF8"></circle><circle cx="1830" cy="610" r="26" fill="none" stroke="#F0A35E" stroke-width="8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle></svg>
 <div style="display:flex;flex-direction:column;align-items:flex-start;gap:24px">
-<h2 style="font-size:80px;font-weight:900;line-height:1.3;color:#2E3A33">這是我目前的做法，<br>也還在慢慢調整。</h2>
+<h2 style="font-size:96px;font-weight:900;line-height:1.3;color:#2E3A33">謝謝大家</h2>
+<p style="font-size:40px;font-weight:500;line-height:1.4;color:#5E6962">分享到此結束</p>
 </div>
-<p style="align-self:flex-start;font-size:40px;font-weight:700;color:#2E3A33;background:#F7CFA8;padding:16px 48px;border-radius:999px">謝謝大家</p>
 <p style="position:absolute;left:128px;bottom:32px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
 <p style="position:absolute;right:128px;bottom:32px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">10 / 10</p>
-<aside>以上就是我目前使用 AI Coding 的一些心得。
+<aside>
 
-這是我目前的做法，之後應該還會繼續調整，也歡迎大家一起交流。
+我的分享到此結束，謝謝大家。
 
-謝謝大家。</aside>
+請問大家有問題嗎?
+
+</aside>
 </section>
 </main>
 
