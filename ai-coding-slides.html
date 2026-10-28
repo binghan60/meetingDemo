@@ -435,7 +435,14 @@
 </div>
 <div style="display:grid;grid-template-columns:1220px minmax(0,1fr);gap:40px">
 <div style="display:flex;flex-direction:column;gap:8px">
-<img src="img/styleguide-catalog.png" alt="UI 元件圖鑑的一部分：按鈕元件，標示各種寫法與使用位置" style="width:1220px;border-radius:16px;box-shadow:0 12px 32px rgba(46,58,51,0.12)">
+<div style="position:relative;width:1220px">
+<img src="img/styleguide-catalog.png" alt="UI 元件圖鑑的一部分：按鈕元件，標示各種寫法與使用位置" style="display:block;width:1220px;border-radius:16px;box-shadow:0 12px 32px rgba(46,58,51,0.12)">
+<div style="position:absolute;left:468px;top:450px;width:66px;height:42px;border:4px solid #F0A35E;border-radius:50%"></div>
+<div style="position:absolute;left:750px;top:450px;width:72px;height:42px;border:4px solid #F0A35E;border-radius:50%"></div>
+<div style="position:absolute;left:1076px;top:450px;width:72px;height:42px;border:4px solid #F0A35E;border-radius:50%"></div>
+<p style="position:absolute;left:440px;top:398px;font-size:22px;font-weight:700;line-height:1.3;color:#2E3A33;background:#F7CFA8;padding:4px 14px;border-radius:999px;white-space:nowrap">標準：大量使用／共用元件</p>
+<p style="position:absolute;left:790px;top:398px;font-size:22px;font-weight:700;line-height:1.3;color:#2E3A33;background:#F7CFA8;padding:4px 14px;border-radius:999px;white-space:nowrap">待收斂：只有少數地方使用</p>
+</div>
 </div>
 <div style="display:flex;flex-direction:column;justify-content:flex-start;gap:24px">
 <div style="display:flex;flex-direction:column;gap:12px;background:#FFFDF8;border-radius:28px;padding:20px 22px;box-shadow:0 12px 32px rgba(46,58,51,0.08)">
@@ -467,6 +474,12 @@
 <p style="position:absolute;right:128px;bottom:32px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">07 / 10</p>
 <aside>
 這一頁就是整理成圖鑑之後，實際使用的方式。
+
+圖鑑裡每個樣式旁邊都有標示。「標準」代表這個樣式在專案中大量使用，或已經做成共用元件；「待收斂」則代表只有少數地方在使用。
+
+跟環工溝通時，我會優先推薦標準樣式。待收斂的樣式先標示出來，等之後剛好處理到相關功能時再處理。
+
+例如 6.3 的匯出按鈕就有兩種樣式。我會等下次修改到匯出功能時，再詢問環工是否要收斂，把待收斂的樣式改成標準樣式，避免畫面一次變動太大。
 
 之後遇到設計圖跟現有畫面不一樣的地方，我就可以在 Issue 裡說明差異，並附上可以參考的元件規範，讓環工確認要採用哪一種方式。
 
