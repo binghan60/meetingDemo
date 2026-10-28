@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-Hant"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FBF6EE">
+<title>簡報遙控</title>
+<style>
+  :root {
+    --bg: #FBF6EE; --card: #FFFDF8; --text: #2E3A33; --muted: #5E6962;
+    --green: #286B4F; --green-soft: #E3EFE6; --orange: #F0A35E; --line: #E9E3D6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1B2420; --card: #24302A; --text: #E8EFE9; --muted: #A9B7AE;
+      --green: #7CC7A0; --green-soft: #2E4237; --orange: #F0A35E; --line: #33423A;
+    }
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    display: flex; flex-direction: column;
+    height: 100dvh;
+    background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+  header {
+    flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
+    background: var(--card); border-bottom: 1px solid var(--line);
+  }
+  #pos { font-size: 28px; font-weight: 700; color: var(--green); font-variant-numeric: tabular-nums; }
+  #pos small { font-size: 16px; font-weight: 500; color: var(--muted); }
+  #status { flex: 1; font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  #status::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--muted); flex: none; }
+  #status.ok::before { background: #3BAA73; }
+  #status.wait::before { background: var(--orange); }
+  .size { display: flex; gap: 6px; }
+  .size button {
+    border: 0; border-radius: 999px; min-width: 44px; height: 40px; padding: 0 12px;
+    background: var(--green-soft); color: var(--green); font-weight: 700; font-size: 15px; font-family: inherit;
+  }
+  h1 { flex: none; margin: 0; padding: 14px 16px 4px; font-size: 18px; font-weight: 700; color: var(--green); }
+  #notes { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 16px 24px; -webkit-overflow-scrolling: touch; }
+  #notes p { margin: 0 0 0.8em; line-height: 1.8; }
+  #notes p.muted { color: var(--muted); }
+  footer {
+    flex: none; display: flex; gap: 12px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: var(--card); border-top: 1px solid var(--line);
+  }
+  footer button {
+    border: 0; border-radius: 20px; height: 72px;
+    font-weight: 700; font-size: 22px; font-family: inherit; touch-action: manipulation;
+  }
+  footer button:active { transform: scale(0.97); }
+  #prev { flex: 1; background: var(--green-soft); color: var(--green); }
+  #next { flex: 2; background: var(--green); color: var(--card); }
+  @media (prefers-color-scheme: dark) { #next { color: #14201A; } }
+</style>
+</head><body>
+<header>
+  <div id="pos">– <small>/ –</small></div>
+  <div id="status" class="wait">連線中…</div>
+  <div class="size">
+    <button type="button" id="fminus" aria-label="字縮小">A−</button>
+    <button type="button" id="fplus" aria-label="字放大">A＋</button>
+  </div>
+</header>
+<h1 id="title"></h1>
+<main id="notes"><p class="muted">等待簡報連線…</p></main>
+<footer>
+  <button type="button" id="prev">‹ 上一頁</button>
+  <button type="button" id="next">下一頁 ›</button>
+</footer>
+<script>
+(function () {
+  function $(id) { return document.getElementById(id); }
+  var posEl = $('pos'), statusEl = $('status'), titleEl = $('title'), notesEl = $('notes');
+  var ws = null, retry = 0, deckOnline = false, connected = false;
+  var lastIndex = -1;
+
+  // ---- 字級 ----
+  var SIZE_KEY = 'remote:size';
+  var size = 22;
+  try { size = parseInt(localStorage.getItem(SIZE_KEY), 10) || 22; } catch (e) { /* 無痕模式等情況 */ }
+  function applySize() {
+    notesEl.style.fontSize = size + 'px';
+    try { localStorage.setItem(SIZE_KEY, size); } catch (e) { /* 忽略 */ }
+  }
+  $('fminus').onclick = function () { size = Math.max(16, size - 2); applySize(); };
+  $('fplus').onclick = function () { size = Math.min(44, size + 2); applySize(); };
+  applySize();
+
+  // ---- 狀態列 ----
+  function showStatus() {
+    if (!connected) { statusEl.className = 'wait'; statusEl.textContent = '連線中斷，重新連線中…'; return; }
+    if (!deckOnline) { statusEl.className = 'wait'; statusEl.textContent = '簡報尚未開啟'; return; }
+    statusEl.className = 'ok'; statusEl.textContent = '已連線';
+  }
+
+  // ---- 畫面更新 ----
+  function render(s) {
+    posEl.innerHTML = (s.index + 1) + ' <small>/ ' + s.total + '</small>';
+    titleEl.textContent = s.title || '';
+    notesEl.innerHTML = '';
+    if (!s.lines.length) {
+      var p = document.createElement('p');
+      p.className = 'muted';
+      p.textContent = '（這頁沒有講稿）';
+      notesEl.appendChild(p);
+    }
+    s.lines.forEach(function (line) {
+      var p = document.createElement('p');
+      p.textContent = line;
+      notesEl.appendChild(p);
+    });
+    // 換頁時回到最上面；同一頁的講稿被修改時保留目前捲動位置
+    if (s.index !== lastIndex) notesEl.scrollTop = 0;
+    lastIndex = s.index;
+  }
+
+  // ---- 連線 ----
+  function connect() {
+    ws = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws?role=remote');
+    ws.onopen = function () { retry = 0; connected = true; showStatus(); };
+    ws.onmessage = function (e) {
+      var m; try { m = JSON.parse(e.data); } catch (x) { return; }
+      if (!m) return;
+      if (m.type === 'state') render(m);
+      else if (m.type === 'presence') { deckOnline = !!m.deck; showStatus(); }
+    };
+    ws.onclose = function () {
+      connected = false; deckOnline = false; showStatus();
+      retry++;
+      setTimeout(connect, Math.min(1000 * retry, 5000));
+    };
+  }
+  connect();
+
+  function cmd(action) {
+    if (ws && ws.readyState === 1) ws.send(JSON.stringify({ type: 'cmd', action: action }));
+    if (navigator.vibrate) navigator.vibrate(12);
+    keepAwake();
+  }
+  $('prev').onclick = function () { cmd('prev'); };
+  $('next').onclick = function () { cmd('next'); };
+
+  // 上台時手機不要自動鎖屏
+  var wake = null;
+  function keepAwake() {
+    if (!('wakeLock' in navigator) || wake) return;
+    navigator.wakeLock.request('screen').then(function (l) {
+      wake = l;
+      l.addEventListener('release', function () { wake = null; });
+    }).catch(function () { /* 瀏覽器不支援或被拒絕 */ });
+  }
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible') {
+      keepAwake();
+      // 手機鎖屏再回來時，連線可能已被系統切斷，立刻補連
+      if (!ws || ws.readyState > 1) connect();
+    }
+  });
+})();
+</script>
+</body></html>

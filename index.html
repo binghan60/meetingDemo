@@ -1011,6 +1011,7 @@
     asideOf(sec, true).textContent = t;
     var stored = readStore();
     if (t === ORIGINAL[sec.id]) delete stored[sec.id]; else stored[sec.id] = t;
+    remoteSync();
     return { edited: isEdited(sec), stored: writeStore(stored) };
   }
   function resetNotes() {
@@ -1020,6 +1021,7 @@
     delete stored[sec.id];
     writeStore(stored);
     syncPresenter();
+    remoteSync();
   }
   function buildHtml() {
     var doc = new DOMParser().parseFromString(PRISTINE, 'text/html');
@@ -1065,6 +1067,7 @@
       history.replaceState(null, '', '#' + (current + 1));
     }
     syncPresenter();
+    remoteSync();
   }
 
   // ---- 講者視窗 ----
@@ -1259,6 +1262,45 @@
   }, { passive: false });
   laserBtn.addEventListener('click', function () { setTool(tool === 'laser' ? null : 'laser'); });
   zoomBtn.addEventListener('click', function () { setTool(tool === 'zoom' ? null : 'zoom'); });
+
+  // ---- 手機遙控（由 server.js 提供 /ws；直接開檔案或放在純靜態空間時會自動略過）----
+  var remoteWs = null, remoteEverOpen = false, remoteFails = 0;
+  function remoteSync() {
+    if (!remoteWs || remoteWs.readyState !== 1) return;
+    var sec = slides[current];
+    var t = notesOf(sec);
+    remoteWs.send(JSON.stringify({
+      type: 'state',
+      index: current,
+      total: slides.length,
+      title: slideTitle(sec),
+      lines: t ? t.split('\n') : []
+    }));
+  }
+  function connectRemote() {
+    if (!/^https?:$/.test(location.protocol)) return;
+    var ws = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws?role=deck');
+    remoteWs = ws;
+    ws.onopen = function () { remoteEverOpen = true; remoteFails = 0; remoteSync(); };
+    ws.onmessage = function (e) {
+      var m;
+      try { m = JSON.parse(e.data); } catch (x) { return; }
+      if (!m || m.type !== 'cmd') return;
+      if (m.action === 'next') go(current + 1);
+      else if (m.action === 'prev') go(current - 1);
+      else if (m.action === 'first') go(0);
+      else if (m.action === 'last') go(slides.length - 1);
+      else if (m.action === 'goto' && typeof m.index === 'number') go(m.index);
+    };
+    ws.onclose = function () {
+      remoteWs = null;
+      remoteFails++;
+      // 從沒連上過，代表這裡是純靜態網頁（沒有伺服器），試幾次就不再試
+      if (!remoteEverOpen && remoteFails >= 3) return;
+      setTimeout(connectRemote, Math.min(1000 * remoteFails, 5000));
+    };
+  }
+  connectRemote();
 
   fit();
   var start = parseInt(location.hash.slice(1), 10);

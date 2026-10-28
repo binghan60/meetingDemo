@@ -1,0 +1,15 @@
+{
+  "name": "meeting-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI Coding 心得分享簡報，附手機遙控與講稿同步",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "ws": "^8.22.0"
+  }
+}
