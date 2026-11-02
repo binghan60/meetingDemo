@@ -142,16 +142,15 @@
 <svg aria-label="插圖：人與 AI 的對話氣泡" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1320 120 C1480 40 1760 60 1880 180 C2000 300 1990 560 1930 740 C1860 930 1660 1010 1480 960 C1300 910 1210 760 1220 580 C1230 400 1170 200 1320 120 Z" fill="#E3EFE6"></path><circle cx="1250" cy="230" r="64" fill="#F8EBC4"></circle><rect x="1440" y="280" width="380" height="210" rx="60" fill="#FFFDF8"></rect><path d="M1500 480 L1470 550 L1570 486 Z" fill="#FFFDF8"></path><polyline points="1580,345 1535,385 1580,425" fill="none" stroke="#286B4F" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></polyline><line x1="1655" y1="335" x2="1615" y2="435" stroke="#F0A35E" stroke-width="16" stroke-linecap="round"></line><polyline points="1690,345 1735,385 1690,425" fill="none" stroke="#286B4F" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></polyline><rect x="1330" y="600" width="340" height="170" rx="60" fill="#F7CFA8"></rect><path d="M1600 760 L1650 825 L1555 766 Z" fill="#F7CFA8"></path><circle cx="1430" cy="685" r="18" fill="#FFFDF8"></circle><circle cx="1500" cy="685" r="18" fill="#FFFDF8"></circle><circle cx="1570" cy="685" r="18" fill="#FFFDF8"></circle><circle cx="1850" cy="880" r="34" fill="none" stroke="#F0A35E" stroke-width="10"></circle><circle cx="1336" cy="872" r="10" fill="#9CC5AA"></circle><circle cx="1372" cy="896" r="10" fill="#9CC5AA"></circle><circle cx="1336" cy="920" r="10" fill="#9CC5AA"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle></svg>
 <p style="align-self:flex-start;font-size:30px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:10px 32px;border-radius:999px">AC 10 會議</p>
 <div style="width:1040px;display:flex;flex-direction:column;gap:36px">
-<h1 style="font-size:96px;font-weight:900;line-height:1.3;color:#2E3A33">AI Coding 心得分享</h1></div>
-<p style="align-self:flex-start;font-size:30px;font-weight:500;color:#2E3A33;background:#FFFDF8;padding:14px 36px;border-radius:999px;box-shadow:0 10px 28px rgba(46,58,51,0.10)">中華 8 樓前端團隊｜李秉翰</p>
+<h1 style="font-size:96px;font-weight:900;line-height:1.3;color:#2E3A33">AI agent 心得分享</h1></div>
+<p style="align-self:flex-start;font-size:30px;font-weight:500;color:#2E3A33;background:#FFFDF8;padding:14px 36px;border-radius:999px;box-shadow:0 10px 28px rgba(46,58,51,0.10)">中華 8 樓前端團隊｜XXX</p>
 <aside>
 大家好，我是中華 8 樓前端團隊的 XXX。
 
 我目前負責的專案是新北市政府環境監測系統，以及環評監測數據整合平台。
 
-今天想跟大家分享，我自己使用 AI Coding 的心得，以及平常是怎麼把 AI 應用在工作上的。
+今天想跟大家分享，我自己使用 AI Agent 的使用歷程，平常的使用工具，以及兩個實際工作上的案例。
 
-這次主要會分享我的使用歷程、平常的使用方式，以及兩個實際工作上的案例。
 </aside>
 </section>
 <section id="journey" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:space-between;gap:48px">
@@ -201,21 +200,19 @@
 <p style="position:absolute;left:128px;bottom:32px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
 <p style="position:absolute;right:128px;bottom:32px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">02 / 10</p>
 <aside>
-我一開始接觸 AI 的時候，是從一般的聊天式 AI 開始，主要拿來問問題、查資料，或是請它協助解決一些比較單純的程式問題。
+我一開始接觸 AI 的時候，是從一般的聊天式 AI 開始，主要拿來查資料或解決單純的程式問題。
 
-大約一年前，我開始嘗試使用 Agent。那時候用的是免費版的 acli rovodev，還有 Gemini CLI，因為當時可以免費使用，所以就想說體驗看看。
+大概一年前，開始嘗試 Agent。用的是免費版的 acli rovodev跟 Gemini CLI
 
-跟一般聊天式的 AI 相比，Agent 可以直接讀取專案中的程式碼，理解不同檔案之間的關係，也可以協助修改實際的專案內容。
+但那時候的模型沒有現在這麼厲害，有時候不但沒辦法完成需求，還把功能改壞。
 
-不過，那時候的模型還沒有那麼成熟，有時候不但沒辦法完整理解需求，甚至可能把原本正常的功能改壞。
+所以那個時候，只是抱著嘗試的心態，看看 Agent 到底能幫上多少忙。
 
-所以那個時候，我還是抱著嘗試的心態，看看 Agent 到底能幫上多少忙。
+後來，各家的模型一直進步，慢慢發現 Agent 能幫上忙的地方越來越多，使用頻率就越來越高。
 
-後來，各家的模型能力一直進步，慢慢發現 Agent 能幫上忙的地方越來越多。
+前陣子Codex Antigravity Claude code 我都有訂閱，後來發現三家一起訂，token有點過剩
 
-當我發現它不只是能回答問題，而是真的可以參與開發工作之後，使用頻率也就越來越高。
-
-現在我主要使用的是 Claude Code，並且已經把它當成日常開發工作中的協作工具。
+最後只保留 Claude Code，現在已經變成日常開發的協作工具。
 </aside>
 </section>
 <section id="partner" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
@@ -243,12 +240,12 @@
 <div style="display:flex;flex-direction:column;justify-content:space-between;gap:20px;background:#FFFDF8;border-radius:36px;padding:48px;box-shadow:0 12px 32px rgba(46,58,51,0.08)">
 <p style="align-self:flex-start;font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 24px;border-radius:999px">AI 參與的日常工作</p>
 <div style="display:flex;flex-direction:row;gap:24px;align-items:center">
-<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="Code" style="color:#286B4F;width:28px;height:28px"></x-icon></div>
-<p style="font-size:40px;font-weight:500;color:#2E3A33">UI 實作</p>
-</div>
-<div style="display:flex;flex-direction:row;gap:24px;align-items:center">
 <div style="flex:none;width:56px;height:56px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="Wrench" style="color:#286B4F;width:28px;height:28px"></x-icon></div>
 <p style="font-size:40px;font-weight:500;color:#2E3A33">程式碼調整</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:center">
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="Code" style="color:#286B4F;width:28px;height:28px"></x-icon></div>
+<p style="font-size:40px;font-weight:500;color:#2E3A33">UI 實作</p>
 </div>
 <div style="display:flex;flex-direction:row;gap:24px;align-items:center">
 <div style="flex:none;width:56px;height:56px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><x-icon name="Chat" style="color:#286B4F;width:28px;height:28px"></x-icon></div>
@@ -265,19 +262,13 @@
 <aside>
 我平常會依照事情的複雜程度，決定怎麼使用 Agent。
 
-比較明確、範圍也比較小的工作，我通常會直接交代需求，讓它協助處理。
+比較明確、範圍也比較小的工作，我通常會直接讓 Claude code 協助處理。
 
-如果是牽涉到多個元件、資料管理方式，或是需要考慮整體架構的功能，我就會先跟 AI 討論，確認方向之後再開始實作。
+複雜的事或是改動範圍比較大的，我會先跟 Claude code 討論，先用plan mode 徵詢意見，確認後再開始改。
 
-實際使用的範圍不只是寫程式。
+除了寫程式，還會請它協助 UI 實作，架構討論還有問題排查。
 
-例如 UI 實作，可以請 Agent 協助把需求轉成畫面；調整程式碼時，可以先請它分析現有的寫法，再評估怎麼修改比較合適。
-
-遇到問題時，也可以請它協助分析可能出錯的原因，縮小排查範圍。
-
-對我來說，Claude Code 比較像是開發過程中的協作夥伴，可以幫我加快處理事情的速度，也讓我有更多時間去思考功能本身的需求和設計。
-
-接下來，我會先介紹一個我最近使用的設計工具，再分享兩個實際工作上的案例，看看 AI 除了寫程式之外，還能怎麼幫助我們處理開發過程中的問題。</aside>
+接下來，我想介紹最近常用的設計工具，再分享怎麼應用在實際工作上。</aside>
 </section>
 <section id="claude-design-intro" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
 <svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"></path><circle cx="1545" cy="120" r="20" fill="#F7CFA8"></circle><circle cx="1838" cy="420" r="8" fill="#BFDCC8"></circle><circle cx="1866" cy="452" r="8" fill="#BFDCC8"></circle><circle cx="1838" cy="484" r="8" fill="#BFDCC8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"></circle></svg>
@@ -311,210 +302,24 @@
 </div>
 <p style="position:absolute;left:128px;bottom:32px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
 <p style="position:absolute;right:128px;bottom:32px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">04 / 10</p>
-<aside>接下來想介紹一個我覺得很好用的工具，叫做 Claude Design。
+<aside>這個工具叫做 Claude Design
 
-我自己主要是透過 Claude Code 使用它，輸入 /design 之後，就可以開始進行設計。
+只要有訂閱 Claude code 就可以用，使用方法很簡單，直接在Claude code 輸入 /design 之後，它就會問你想設計什麼。
 
-它跟一般聊天式的 AI 不太一樣，除了可以透過對話描述需求，也可以直接產生視覺化的設計，讓我們在畫布上查看成果，再繼續調整。
+這部分就跟平常改程式碼一樣跟他討論需求，只是最後產出的是設計稿，而不是程式碼。
 
-另外，它產生設計之後，會提供一個可以開啟的畫布連結，介面有點像 Figma，可以直接查看和調整設計。
+完成後會生成一個連結，打開後就可以看到設計圖，介面有點像 Figma，可以直接在畫布上修改。
 
-我自己大部分還是會直接在 Claude 的對話視窗請它修改，因為這樣對我來說比較直覺，也比較不用擔心自己操作時不小心把設計圖弄亂。
+但我還是會直接在 Claude code 的對話視窗請它修改，也比較不用擔心自己操作時不小心把設計圖弄亂。
 
-接下來就用一個實際案例，跟大家分享我怎麼用它來調整畫面。
+我很常使用的情境是，覺得畫面不太美觀但又想不到該怎麼做的時候，就會用Claude design 設計不同版本讓我選。
+
 </aside>
 </section>
-<section id="design-modes" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:72px 128px 120px;display:flex;flex-direction:column;gap:32px">
-<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"></path><circle cx="1545" cy="120" r="20" fill="#F7CFA8"></circle><circle cx="1838" cy="420" r="8" fill="#BFDCC8"></circle><circle cx="1866" cy="452" r="8" fill="#BFDCC8"></circle><circle cx="1838" cy="484" r="8" fill="#BFDCC8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"></circle></svg>
-<div style="display:flex;flex-direction:row;align-items:center;gap:24px">
-<p style="flex:none;font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">產出範例</p>
-<h2 style="font-size:64px;font-weight:700;line-height:1.2;color:#2E3A33">給它現況畫面，它會提出另一種配置</h2>
-</div>
-<div style="display:flex;align-items:center;justify-content:center">
-<img src="img/image.png" alt="監測數據分析頁面：左為現況，折線圖被擠壓；右為 Claude Design 建議的另一種配置" style="width:1664px;border-radius:16px;box-shadow:0 12px 32px rgba(46,58,51,0.12)">
-</div>
-<div style="align-self:flex-start;display:flex;flex-direction:row;align-items:center;gap:24px;background:#F8EBC4;border-radius:999px;padding:16px 48px 16px 16px">
-<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Lightbulb" style="color:#96461A;width:28px;height:28px"></x-icon></div>
-<div style="display:flex;flex-direction:row;align-items:center;gap:28px">
-<p style="font-size:28px;font-weight:500;line-height:1.5;color:#2E3A33"><b style="color:#96461A">左</b>　現況</p>
-<div style="flex:none;width:3px;height:32px;background:#E3CF8E"></div>
-<p style="font-size:28px;font-weight:500;line-height:1.5;color:#2E3A33"><b style="color:#96461A">右</b>　Claude Design 提出的另一種配置</p>
-<div style="flex:none;width:3px;height:32px;background:#E3CF8E"></div>
-<p style="font-size:28px;font-weight:500;line-height:1.5;color:#2E3A33"><b style="color:#96461A">粉色線</b>　繪圖區高度</p>
-</div>
-</div>
-<p style="position:absolute;left:128px;bottom:32px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
-<p style="position:absolute;right:128px;bottom:32px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">05 / 10</p>
-<aside>這張圖是 Claude Design 的實際產出。
-
-左邊是原本的畫面。
-
-當時因為下方圖表追加「比例放大」還有「多年度比較」控制項，整個折線圖的繪圖區就被擠壓，能夠呈現資料的空間變得很小。
-
-右邊則是 Claude Design 提出的另一種配置。
-
-圖上的粉色輔助線，是 Claude Design 主動加上的，讓我可以更清楚的看出改善的幅度。
-
-原本的繪圖區大約只有 63px，重新排版之後增加到 201px，差不多是原本的三倍。
-
-這樣調整之後，圖表就有比較足夠的空間可以呈現資料，整體看起來也比較清楚。
-
-對我來說，這個案例比較重要的不是 AI 直接給了一個答案，而是當原本的畫面有問題時，可以先透過它產生另一種設計，實際比較之後，再決定怎麼調整。
-
-確認好方向之後，就可以交給 Claude Code 實作，不用一開始就直接修改程式碼，才發現排版不符合需求。
-
-那除了用 AI 協助調整畫面，我也會用它來整理既有的程式和元件。
-
-接下來這個案例，就是我在工作上遇到的一個溝通問題。
-</aside>
-</section>
-<section id="case-catalog" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
-<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"></path><circle cx="1545" cy="120" r="20" fill="#F7CFA8"></circle><circle cx="1838" cy="420" r="8" fill="#BFDCC8"></circle><circle cx="1866" cy="452" r="8" fill="#BFDCC8"></circle><circle cx="1838" cy="484" r="8" fill="#BFDCC8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"></circle></svg>
-<div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px">
-<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">實戰案例一</p>
-<h2 style="font-size:64px;font-weight:700;line-height:1.2;color:#2E3A33">用 AI 整理 UI 元件圖鑑，改善設計溝通</h2>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:48px">
-<div style="display:flex;flex-direction:column;gap:24px;background:#FBE3CF;border-radius:36px;padding:44px">
-<p style="align-self:flex-start;font-size:24px;font-weight:700;letter-spacing:2px;color:#96461A;background:#FFFDF8;padding:8px 24px;border-radius:999px">原本遇到的問題</p>
-<ul style="font-size:36px;line-height:1.5;color:#2E3A33">
-<li>新設計圖和既有畫面風格不一致，專案卻沒有明確的 UI 規範可參考</li>
-<li>有些樣式依照既有慣例，有些各自撰寫</li>
-<li>畫面和環工想像有落差，容易來回溝通</li>
-</ul>
-</div>
-<div style="display:flex;flex-direction:column;gap:24px;background:#E3EFE6;border-radius:36px;padding:44px">
-<p style="align-self:flex-start;font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#FFFDF8;padding:8px 24px;border-radius:999px">我用 AI 做的事</p>
-<div style="display:flex;flex-direction:column;gap:20px">
-<div style="display:flex;flex-direction:row;align-items:center;gap:20px">
-<div style="flex:none;width:52px;height:52px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:30px;font-weight:600;color:#286B4F">1</p></div>
-<p style="font-size:36px;line-height:1.4;color:#2E3A33">盤點專案中的 UI 元件</p>
-</div>
-<div style="display:flex;flex-direction:row;align-items:center;gap:20px">
-<div style="flex:none;width:52px;height:52px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:30px;font-weight:600;color:#286B4F">2</p></div>
-<p style="font-size:36px;line-height:1.4;color:#2E3A33">標示用法一致、與各自撰寫樣式的地方</p>
-</div>
-<div style="display:flex;flex-direction:row;align-items:center;gap:20px">
-<div style="flex:none;width:52px;height:52px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:30px;font-weight:600;color:#286B4F">3</p></div>
-<p style="font-size:36px;line-height:1.4;color:#2E3A33">整理成 UI 元件圖鑑</p>
-</div>
-</div>
-</div>
-</div>
-<div style="align-self:flex-start;display:flex;flex-direction:row;align-items:center;gap:24px;background:#F8EBC4;border-radius:999px;padding:20px 48px 20px 20px">
-<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Lightbulb" style="color:#96461A;width:28px;height:28px"></x-icon></div>
-<p style="font-size:30px;font-weight:500;line-height:1.5;color:#2E3A33">AI 不只幫我寫程式，也幫我整理資訊，讓模糊的問題比較好討論</p>
-</div>
-<p style="position:absolute;left:128px;bottom:32px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
-<p style="position:absolute;right:128px;bottom:32px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">06 / 10</p>
-<aside>
-專案當時遇到一個問題，就是新頁面的設計圖跟既有畫面風格不一致，但是專案又沒有一份完整的 UI 規範可以直接參考。
-
-有些元件是沿用專案原本的寫法，有些則是不同時期各自撰寫的，所以實際做出來的畫面，有時候會跟環工原本想像的不太一樣。
-
-遇到這種情況時，就需要反覆確認，到底應該沿用專案原本的樣式，還是依照這次的設計圖實作。
-
-因為專案裡已經累積不少元件，如果要全部人工逐一盤點，再整理成文件，也需要花不少時間。
-
-所以後來我就請 AI 協助盤點專案裡的 UI 元件。
-
-先整理目前有哪些元件、各自怎麼使用，以及哪些地方的寫法一致、哪些地方又有不同。
-
-再把這些資訊整理成一份 UI 元件圖鑑。
-
-這份圖鑑不是要直接取代原本的程式碼，而是把專案裡既有的元件和樣式整理出來，讓大家有一個比較明確的參考依據。
-
-整理完成之後，遇到設計圖跟既有畫面不一樣的情況，就可以直接拿這份圖鑑來討論。
-</aside>
-</section>
-<section id="case-catalog-use" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:72px 128px 120px;display:flex;flex-direction:column;gap:28px">
-<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"></path><circle cx="1545" cy="120" r="20" fill="#F7CFA8"></circle><circle cx="1838" cy="420" r="8" fill="#BFDCC8"></circle><circle cx="1866" cy="452" r="8" fill="#BFDCC8"></circle><circle cx="1838" cy="484" r="8" fill="#BFDCC8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"></circle></svg>
-<div style="display:flex;flex-direction:row;align-items:center;gap:24px">
-<p style="flex:none;font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">實戰案例一</p>
-<h2 style="font-size:64px;font-weight:700;line-height:1.2;color:#2E3A33">有了圖鑑，環工只需要二選一</h2>
-</div>
-<div style="display:grid;grid-template-columns:1220px minmax(0,1fr);gap:40px">
-<div style="display:flex;flex-direction:column;gap:8px">
-<div style="position:relative;width:1220px">
-<img src="img/styleguide-catalog.png" alt="UI 元件圖鑑的一部分：按鈕元件，標示各種寫法與使用位置" style="display:block;width:1220px;border-radius:16px;box-shadow:0 12px 32px rgba(46,58,51,0.12)">
-<div style="position:absolute;left:468px;top:450px;width:66px;height:42px;border:4px solid #F0A35E;border-radius:50%"></div>
-<div style="position:absolute;left:750px;top:450px;width:72px;height:42px;border:4px solid #F0A35E;border-radius:50%"></div>
-<div style="position:absolute;left:1076px;top:450px;width:72px;height:42px;border:4px solid #F0A35E;border-radius:50%"></div>
-<p style="position:absolute;left:440px;top:398px;font-size:22px;font-weight:700;line-height:1.3;color:#2E3A33;background:#F7CFA8;padding:4px 14px;border-radius:999px;white-space:nowrap">標準：大量使用／共用元件</p>
-<p style="position:absolute;left:790px;top:398px;font-size:22px;font-weight:700;line-height:1.3;color:#2E3A33;background:#F7CFA8;padding:4px 14px;border-radius:999px;white-space:nowrap">待收斂：只有少數地方使用</p>
-</div>
-</div>
-<div style="display:flex;flex-direction:column;justify-content:flex-start;gap:24px">
-<div style="display:flex;flex-direction:column;gap:12px;background:#FFFDF8;border-radius:28px;padding:20px 22px;box-shadow:0 12px 32px rgba(46,58,51,0.08)">
-<p style="font-size:22px;font-weight:700;color:#5E6962">Issue 留言範例</p>
-<p style="font-size:24px;line-height:1.5;color:#2E3A33">這裡和設計圖不一樣，請選擇要採用哪一種：</p>
-<div style="display:flex;flex-direction:row;align-items:center;gap:10px;background:#FBF6EE;border-radius:999px;padding:8px 18px">
-<div style="flex:none;width:28px;height:28px;background:#FFFDF8;border:3px solid #9CC5AA;border-radius:8px"></div>
-<p style="font-size:24px;font-weight:500;color:#2E3A33">按鈕樣式採用圖鑑 6.3-A</p>
-</div>
-<div style="display:flex;flex-direction:row;align-items:center;gap:10px;background:#FBF6EE;border-radius:999px;padding:8px 18px">
-<div style="flex:none;width:28px;height:28px;background:#FFFDF8;border:3px solid #9CC5AA;border-radius:8px"></div>
-<p style="font-size:24px;font-weight:500;color:#2E3A33">以設計圖樣式建立新規範</p>
-</div>
-</div>
-<div style="display:flex;flex-direction:column;gap:8px;border-radius:28px;padding:24px 22px">
-<p style="font-size:24px;font-weight:700;color:#96461A">樣式確認要來回溝通幾次？</p>
-<div style="display:flex;flex-direction:row;align-items:baseline;gap:16px">
-<p style="font-size:28px;font-weight:700;color:#5E6962">以前</p>
-<p style="font-size:40px;font-weight:700;line-height:1.2;color:#5E6962">5 次以上</p>
-</div>
-<div style="display:flex;flex-direction:row;align-items:baseline;gap:16px">
-<p style="font-size:28px;font-weight:700;color:#96461A">現在</p>
-<p style="font-size:56px;font-weight:900;line-height:1.1;color:#96461A">1～2 次</p>
-</div>
-</div>
-</div>
-</div>
-<p style="position:absolute;left:128px;bottom:32px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
-<p style="position:absolute;right:128px;bottom:32px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">07 / 10</p>
-<aside>
-這一頁就是整理成圖鑑之後，實際使用的方式。
-
-圖鑑裡每個樣式旁邊都有標示。「標準」代表這個樣式在專案中大量使用，或已經做成共用元件；「待收斂」則代表只有少數地方在使用。
-
-跟環工溝通時，我會優先推薦標準樣式。待收斂的樣式先標示出來，等之後剛好處理到相關功能時再處理。
-
-例如 6.3 的匯出按鈕就有兩種樣式。我會等下次修改到匯出功能時，再詢問環工是否要收斂，把待收斂的樣式改成標準樣式，避免畫面一次變動太大。
-
-之後遇到設計圖跟現有畫面不一樣的地方，我就可以在 Issue 裡說明差異，並附上可以參考的元件規範，讓環工確認要採用哪一種方式。
-
-基本上就是兩種選擇。
-
-第一種，是遵循專案原本的慣例，直接使用既有的元件樣式。
-
-第二種，如果這次的設計確實有新的需求，就依照設計圖建立新的樣式，再把它整理進圖鑑裡。
-
-這樣一來，雙方就不用每次都從頭討論，因為已經有具體的畫面可以參考。
-
-以前遇到這類 UI 樣式確認的問題，經常需要來回溝通五次以上。
-
-而且有些畫面細節，真的很難只靠文字說清楚。
-
-例如字體、顏色、間距、圓角這些東西，如果全部用文字描述，不但很麻煩，也不一定能讓雙方理解得一樣。
-
-使用這個方法之後，這類溝通通常一到兩次就能確認。
-
-因為環工可以直接參考圖鑑，選擇要沿用既有樣式，還是建立新的規範。
-
-除了減少溝通次數之外，也可以把專案既有的 UI 逐步整理起來，讓樣式慢慢收斂，避免後續出現越來越多種不同的寫法。
-
-我覺得這個案例很有意思，因為 AI 在這裡不只是幫我寫程式，而是協助我整理資訊，讓原本不容易說清楚的問題，有一個具體的參考依據。
-
-這樣大家比較容易討論，也比較容易達成共識。
-
-接下來再分享另一個案例，這次就比較偏向實際開發。
-</aside>
-</section>
-
 <section id="case-map" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
 <svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"></path><circle cx="1545" cy="120" r="20" fill="#F7CFA8"></circle><circle cx="1838" cy="420" r="8" fill="#BFDCC8"></circle><circle cx="1866" cy="452" r="8" fill="#BFDCC8"></circle><circle cx="1838" cy="484" r="8" fill="#BFDCC8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"></circle></svg>
 <div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px">
-<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">實戰案例二</p>
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">實戰案例一</p>
 <h2 style="font-size:64px;font-weight:700;line-height:1.2;color:#2E3A33">地圖功能，先做出畫面再討論</h2>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px">
@@ -537,7 +342,7 @@
 </div>
 <div style="display:flex;flex-direction:row;align-items:center;gap:16px">
 <div style="flex:none;width:40px;height:40px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:600;color:#286B4F">2</p></div>
-<p style="font-size:30px;line-height:1.5;color:#2E3A33">請 AI 先做出初版畫面，不必先讀完文件</p>
+<p style="font-size:30px;line-height:1.5;color:#2E3A33">用 Claude design 做示意圖</p>
 </div>
 <div style="display:flex;flex-direction:row;align-items:center;gap:16px">
 <div style="flex:none;width:40px;height:40px;border-radius:50%;background:#E3EFE6;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:600;color:#286B4F">3</p></div>
@@ -615,6 +420,149 @@
 有時候，在需求還沒有完全確定的時候，就可以先請它協助做出一個雛形，讓後續的討論更有效率。
 </aside>
 </section>
+<section id="case-catalog" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"></path><circle cx="1545" cy="120" r="20" fill="#F7CFA8"></circle><circle cx="1838" cy="420" r="8" fill="#BFDCC8"></circle><circle cx="1866" cy="452" r="8" fill="#BFDCC8"></circle><circle cx="1838" cy="484" r="8" fill="#BFDCC8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"></circle></svg>
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px">
+<p style="font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">實戰案例二</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.2;color:#2E3A33">用 AI 整理 UI 元件圖鑑，改善設計溝通</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:48px">
+<div style="display:flex;flex-direction:column;gap:24px;background:#FBE3CF;border-radius:36px;padding:44px">
+<p style="align-self:flex-start;font-size:24px;font-weight:700;letter-spacing:2px;color:#96461A;background:#FFFDF8;padding:8px 24px;border-radius:999px">原本遇到的問題</p>
+<ul style="font-size:36px;line-height:1.5;color:#2E3A33">
+<li>新設計圖和既有畫面風格不一致，專案卻沒有明確的 UI 規範可參考</li>
+<li>有些樣式依照既有慣例，有些各自撰寫</li>
+<li>畫面和環工想像有落差，容易來回溝通</li>
+</ul>
+</div>
+<div style="display:flex;flex-direction:column;gap:24px;background:#E3EFE6;border-radius:36px;padding:44px">
+<p style="align-self:flex-start;font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#FFFDF8;padding:8px 24px;border-radius:999px">我用 AI 做的事</p>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:row;align-items:center;gap:20px">
+<div style="flex:none;width:52px;height:52px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:30px;font-weight:600;color:#286B4F">1</p></div>
+<p style="font-size:36px;line-height:1.4;color:#2E3A33">盤點專案中的 UI 元件</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:20px">
+<div style="flex:none;width:52px;height:52px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:30px;font-weight:600;color:#286B4F">2</p></div>
+<p style="font-size:36px;line-height:1.4;color:#2E3A33">標示用法一致、與各自撰寫樣式的地方</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:20px">
+<div style="flex:none;width:52px;height:52px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><p style="font-family:'Fredoka', Arial, sans-serif;font-size:30px;font-weight:600;color:#286B4F">3</p></div>
+<p style="font-size:36px;line-height:1.4;color:#2E3A33">整理成 UI 元件圖鑑</p>
+</div>
+</div>
+</div>
+</div>
+<div style="align-self:flex-start;display:flex;flex-direction:row;align-items:center;gap:24px;background:#F8EBC4;border-radius:999px;padding:20px 48px 20px 20px">
+<div style="flex:none;width:56px;height:56px;border-radius:50%;background:#FFFDF8;display:flex;align-items:center;justify-content:center"><x-icon name="Lightbulb" style="color:#96461A;width:28px;height:28px"></x-icon></div>
+<p style="font-size:30px;font-weight:500;line-height:1.5;color:#2E3A33">AI 不只幫我寫程式，也幫我整理資訊，讓模糊的問題比較好討論</p>
+</div>
+<p style="position:absolute;left:128px;bottom:32px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
+<p style="position:absolute;right:128px;bottom:32px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">06 / 10</p>
+<aside>
+專案當時遇到一個問題，就是新頁面的設計圖跟既有畫面風格不一致，但是專案又沒有一份完整的 UI 規範可以直接參考。
+
+有些元件是沿用專案原本的寫法，有些則是不同時期各自撰寫的，所以實際做出來的畫面，有時候會跟環工原本想像的不太一樣。
+
+遇到這種情況時，就需要反覆確認，到底應該沿用專案原本的樣式，還是依照這次的設計圖實作。
+
+因為專案裡已經累積不少元件，如果要全部人工逐一盤點，再整理成文件，也需要花不少時間。
+
+所以後來我就請 AI 協助盤點專案裡的 UI 元件。
+
+先整理目前有哪些元件、各自怎麼使用，以及哪些地方的寫法一致、哪些地方又有不同。
+
+再把這些資訊整理成一份 UI 元件圖鑑。
+
+這份圖鑑不是要直接取代原本的程式碼，而是把專案裡既有的元件和樣式整理出來，讓大家有一個比較明確的參考依據。
+
+整理完成之後，遇到設計圖跟既有畫面不一樣的情況，就可以直接拿這份圖鑑來討論。
+</aside>
+</section>
+<section id="case-catalog-use" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:72px 128px 120px;display:flex;flex-direction:column;gap:28px">
+<svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"></path><circle cx="1545" cy="120" r="20" fill="#F7CFA8"></circle><circle cx="1838" cy="420" r="8" fill="#BFDCC8"></circle><circle cx="1866" cy="452" r="8" fill="#BFDCC8"></circle><circle cx="1838" cy="484" r="8" fill="#BFDCC8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"></circle></svg>
+<div style="display:flex;flex-direction:row;align-items:center;gap:24px">
+<p style="flex:none;font-size:24px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:8px 28px;border-radius:999px">實戰案例二</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.2;color:#2E3A33">有了圖鑑，環工只需要二選一</h2>
+</div>
+<div style="display:grid;grid-template-columns:1220px minmax(0,1fr);gap:40px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="position:relative;width:1220px">
+<img src="img/styleguide-catalog.png" alt="UI 元件圖鑑的一部分：按鈕元件，標示各種寫法與使用位置" style="display:block;width:1220px;border-radius:16px;box-shadow:0 12px 32px rgba(46,58,51,0.12)">
+<div style="position:absolute;left:468px;top:450px;width:66px;height:42px;border:4px solid #F0A35E;border-radius:50%"></div>
+<div style="position:absolute;left:750px;top:450px;width:72px;height:42px;border:4px solid #F0A35E;border-radius:50%"></div>
+<div style="position:absolute;left:1076px;top:450px;width:72px;height:42px;border:4px solid #F0A35E;border-radius:50%"></div>
+<p style="position:absolute;left:440px;top:398px;font-size:22px;font-weight:700;line-height:1.3;color:#2E3A33;background:#F7CFA8;padding:4px 14px;border-radius:999px;white-space:nowrap">標準：大量使用／共用元件</p>
+<p style="position:absolute;left:790px;top:398px;font-size:22px;font-weight:700;line-height:1.3;color:#2E3A33;background:#F7CFA8;padding:4px 14px;border-radius:999px;white-space:nowrap">待收斂：只有少數地方使用</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;justify-content:flex-start;gap:24px">
+<div style="display:flex;flex-direction:column;gap:12px;background:#FFFDF8;border-radius:28px;padding:20px 22px;box-shadow:0 12px 32px rgba(46,58,51,0.08)">
+<p style="font-size:22px;font-weight:700;color:#5E6962">Issue 留言範例</p>
+<p style="font-size:24px;line-height:1.5;color:#2E3A33">這裡和設計圖不一樣，請選擇要採用哪一種：</p>
+<div style="display:flex;flex-direction:row;align-items:center;gap:10px;background:#FBF6EE;border-radius:999px;padding:8px 18px">
+<div style="flex:none;width:28px;height:28px;background:#FFFDF8;border:3px solid #9CC5AA;border-radius:8px"></div>
+<p style="font-size:24px;font-weight:500;color:#2E3A33">按鈕樣式採用圖鑑 6.3-A</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:10px;background:#FBF6EE;border-radius:999px;padding:8px 18px">
+<div style="flex:none;width:28px;height:28px;background:#FFFDF8;border:3px solid #9CC5AA;border-radius:8px"></div>
+<p style="font-size:24px;font-weight:500;color:#2E3A33">以設計圖樣式建立新規範</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;border-radius:28px;padding:24px 22px">
+<p style="font-size:24px;font-weight:700;color:#96461A">樣式確認要來回溝通幾次？</p>
+<div style="display:flex;flex-direction:row;align-items:baseline;gap:16px">
+<p style="font-size:28px;font-weight:700;color:#5E6962">以前</p>
+<p style="font-size:40px;font-weight:700;line-height:1.2;color:#5E6962">5 次以上</p>
+</div>
+<div style="display:flex;flex-direction:row;align-items:baseline;gap:16px">
+<p style="font-size:28px;font-weight:700;color:#96461A">現在</p>
+<p style="font-size:56px;font-weight:900;line-height:1.1;color:#96461A">1～2 次</p>
+</div>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:32px;width:800px;font-size:24px;color:#5E6962">AI Coding 心得分享</p>
+<p style="position:absolute;right:128px;bottom:32px;width:240px;font-family:'Fredoka', Arial, sans-serif;font-size:24px;font-weight:500;color:#5E6962;text-align:right">07 / 10</p>
+<aside>
+這一頁就是整理成圖鑑之後，實際使用的方式。
+
+圖鑑裡每個樣式旁邊都有標示。「標準」代表這個樣式在專案中大量使用，或已經做成共用元件；「待收斂」則代表只有少數地方在使用。
+
+跟環工溝通時，我會優先推薦標準樣式。待收斂的樣式先標示出來，等之後剛好處理到相關功能時再處理。
+
+例如 6.3 的匯出按鈕就有兩種樣式。我會等下次修改到匯出功能時，再詢問環工是否要收斂，把待收斂的樣式改成標準樣式，避免畫面一次變動太大。
+
+之後遇到設計圖跟現有畫面不一樣的地方，我就可以在 Issue 裡說明差異，並附上可以參考的元件規範，讓環工確認要採用哪一種方式。
+
+基本上就是兩種選擇。
+
+第一種，是遵循專案原本的慣例，直接使用既有的元件樣式。
+
+第二種，如果這次的設計確實有新的需求，就依照設計圖建立新的樣式，再把它整理進圖鑑裡。
+
+這樣一來，雙方就不用每次都從頭討論，因為已經有具體的畫面可以參考。
+
+以前遇到這類 UI 樣式確認的問題，經常需要來回溝通五次以上。
+
+而且有些畫面細節，真的很難只靠文字說清楚。
+
+例如字體、顏色、間距、圓角這些東西，如果全部用文字描述，不但很麻煩，也不一定能讓雙方理解得一樣。
+
+使用這個方法之後，這類溝通通常一到兩次就能確認。
+
+因為環工可以直接參考圖鑑，選擇要沿用既有樣式，還是建立新的規範。
+
+除了減少溝通次數之外，也可以把專案既有的 UI 逐步整理起來，讓樣式慢慢收斂，避免後續出現越來越多種不同的寫法。
+
+我覺得這個案例很有意思，因為 AI 在這裡不只是幫我寫程式，而是協助我整理資訊，讓原本不容易說清楚的問題，有一個具體的參考依據。
+
+這樣大家比較容易討論，也比較容易達成共識。
+
+接下來我們來看總結。
+</aside>
+</section>
+
 <section id="summary" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
 <svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"></path><circle cx="1545" cy="120" r="20" fill="#F7CFA8"></circle><circle cx="1838" cy="420" r="8" fill="#BFDCC8"></circle><circle cx="1866" cy="452" r="8" fill="#BFDCC8"></circle><circle cx="1838" cy="484" r="8" fill="#BFDCC8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"></circle></svg>
 <div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px">
@@ -624,13 +572,13 @@
 <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:48px">
 <div style="display:flex;flex-direction:column;justify-content:center;gap:28px;background:#FBE3CF;border-radius:36px;padding:56px 52px">
 <p style="align-self:flex-start;font-size:26px;font-weight:700;letter-spacing:2px;color:#96461A;background:#FFFDF8;padding:8px 28px;border-radius:999px">案例一</p>
-<h3 style="font-size:56px;font-weight:700;line-height:1.3;color:#2E3A33">UI 元件圖鑑</h3>
-<p style="font-size:38px;line-height:1.5;color:#2E3A33">有了具體參考，環工可以直接選擇</p>
+<h3 style="font-size:56px;font-weight:700;line-height:1.3;color:#2E3A33">地圖初版畫面</h3>
+<p style="font-size:38px;line-height:1.5;color:#2E3A33">直接針對畫面討論，不必各自想像</p>
 </div>
 <div style="display:flex;flex-direction:column;justify-content:center;gap:28px;background:#E3EFE6;border-radius:36px;padding:56px 52px">
 <p style="align-self:flex-start;font-size:26px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#FFFDF8;padding:8px 28px;border-radius:999px">案例二</p>
-<h3 style="font-size:56px;font-weight:700;line-height:1.3;color:#2E3A33">地圖初版畫面</h3>
-<p style="font-size:38px;line-height:1.5;color:#2E3A33">直接針對畫面討論，不必各自想像</p>
+<h3 style="font-size:56px;font-weight:700;line-height:1.3;color:#2E3A33">UI 元件圖鑑</h3>
+<p style="font-size:38px;line-height:1.5;color:#2E3A33">有了具體參考，環工可以直接選擇</p>
 </div>
 </div>
 <div style="display:flex;flex-direction:row;align-items:center;gap:28px;background:#F8EBC4;border-radius:999px;padding:28px 56px 28px 28px">
@@ -642,7 +590,7 @@
 <aside>
 最後簡單整理一下今天的分享。
 
-這兩個案例，一個是整理 UI 元件圖鑑，一個是先做出地圖的初版畫面，看起來不太一樣，但有個共同點：原本有些問題很難只靠文字說清楚。
+這兩個案例，一個是先做出地圖的初版畫面，一個是整理 UI 元件圖鑑，看起來不太一樣，但有個共同點：原本有些問題很難只靠文字說清楚。
 
 我的專案夥伴都在衡陽辦，平常討論很多時候只能靠文字，雙方容易各自想像。有了可以直接看的畫面，或是一份整理好的圖鑑，大家就有共同的參考依據，可以針對具體內容討論，而不是猜對方的意思。
 </aside>
