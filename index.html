@@ -143,13 +143,13 @@
 <p style="align-self:flex-start;font-size:30px;font-weight:700;letter-spacing:2px;color:#286B4F;background:#E3EFE6;padding:10px 32px;border-radius:999px">AC 10 會議</p>
 <div style="width:1040px;display:flex;flex-direction:column;gap:36px">
 <h1 style="font-size:96px;font-weight:900;line-height:1.3;color:#2E3A33">AI agent 心得分享</h1></div>
-<p style="align-self:flex-start;font-size:30px;font-weight:500;color:#2E3A33;background:#FFFDF8;padding:14px 36px;border-radius:999px;box-shadow:0 10px 28px rgba(46,58,51,0.10)">中華 8 樓前端團隊｜XXX</p>
+<p style="align-self:flex-start;font-size:30px;font-weight:500;color:#2E3A33;background:#FFFDF8;padding:14px 36px;border-radius:999px;box-shadow:0 10px 28px rgba(46,58,51,0.10)">中華 8 樓前端團隊｜李秉翰</p>
 <aside>
-大家好，我是中華 8 樓前端團隊的 XXX。
+大家好，我是中華 8 樓前端團隊的 李秉翰
 
-我目前負責的專案是新北市政府環境監測系統，以及環評監測數據整合平台。
+我目前負責的專案是 新北市環境資訊監控平台 以及 環評監測數據整合平台。
 
-今天想跟大家分享，我自己使用 AI Agent 的使用歷程，平常的使用工具，以及兩個實際工作上的案例。
+今天想跟大家分享，我自己使用 AI Agent 的歷程，平常的使用工具，以及實際工作上的案例。
 
 </aside>
 </section>
@@ -202,17 +202,17 @@
 <aside>
 我一開始接觸 AI 的時候，是從一般的聊天式 AI 開始，主要拿來查資料或解決單純的程式問題。
 
-大概一年前，才開始嘗試 Agent。用的是免費版的 acli rovodev跟 Gemini CLI
+大概一年前，才開始嘗試 Agent。我是從 acli rovodev跟 Gemini CLI 開始嘗試
 
 但那時候的模型沒有現在這麼厲害，有時候沒辦法完成需求，還把功能改壞。
 
-所以那個時候，我只是抱著嘗試的心態，看看 Agent 到底能幫上多少忙。
+所以一開始我只是 抱著嘗試的心態，看看 Agent 到底能幫上多少忙。
 
 後來，各家的模型一直進步，慢慢發現 Agent 能幫上忙的地方越來越多，使用頻率就越來越高。
 
-我前陣子Antigravity Codex Claude code 我都有訂閱，後來發現三家一起訂，token幾乎用不完
+前陣子我 Antigravity Codex Claude code 都有訂閱，後來發現三家一起訂，token幾乎用不完
 
-最後選擇 Claude Code，現在已經變成日常開發的協作工具。
+最後我選擇 Claude Code，現在已經變成日常開發的協作工具。
 </aside>
 </section>
 <section id="partner" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
@@ -266,9 +266,9 @@
 
 複雜的事或是改動範圍比較大的，我會用 plan mode 制定計劃，確認後再開始改。
 
-除了寫程式，也會請它協助 UI 實作，架構討論還有問題排查。
+除了寫程式，也會請它幫我 UI 實作，架構討論還有問題排查。
 
-接下來，我想介紹最近常用的設計工具，再分享怎麼應用在實際工作上。</aside>
+接下來，我想介紹最近常用的設計工具，以及我怎麼應用在實際工作上。</aside>
 </section>
 <section id="claude-design-intro" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
 <svg aria-label="背景裝飾" width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px"><path d="M1640 -40 C1760 -70 1950 -40 1960 90 C1972 230 1900 330 1790 340 C1690 350 1610 290 1590 200 C1570 110 1560 -20 1640 -40 Z" fill="#E3EFE6"></path><circle cx="1545" cy="120" r="20" fill="#F7CFA8"></circle><circle cx="1838" cy="420" r="8" fill="#BFDCC8"></circle><circle cx="1866" cy="452" r="8" fill="#BFDCC8"></circle><circle cx="1838" cy="484" r="8" fill="#BFDCC8"></circle><circle cx="0" cy="1080" r="120" fill="#F8EBC4"></circle><circle cx="1856" cy="972" r="26" fill="none" stroke="#F7CFA8" stroke-width="8"></circle></svg>
@@ -306,11 +306,11 @@
 
 只要有訂閱 Claude code 就可以用，使用方法很簡單，直接在 Claude code 輸入 /design 之後，它就會問你想設計什麼。
 
-這部分就跟平常改程式碼一樣跟他討論需求，只是 design 模式最後產出的是設計圖，而不是程式碼。
+之後就跟平常改程式碼一樣跟他討論需求，只是 design 模式最後產出的是設計圖，而不是程式碼。
 
-完成後會生成一個連結，打開就可以看到設計圖。
+完成後會產生一個連結，打開就可以看到設計圖。
 
-我很常使用的情境是，覺得畫面不太美觀但又想不到該怎麼做的時候，就會用Claude design 設計不同版本讓我選。
+我很常使用的情境是，覺得畫面不太美觀但又想不到該怎麼做的時候，就會用Claude design 設計不同版本讓我參考。
 
 </aside>
 </section>
@@ -380,25 +380,27 @@
 Claude design 連結打開後，其實就是網頁版 Claude 其中一個頁籤
 設計圖裡的介面就跟一般的設計軟體一樣，我可以直接在畫布上修改。 
 對畫布進行的改動，原來的 Claude code 對話視窗都可以偵測到。
-但我還是會直接在 Claude code 的對話視窗請它自己修改，我怕自己操作會把設計圖弄亂。
+但如果我想改樣式的話 我還是會直接在 Claude code 的對話視窗請它修改，我怕自己操作會把設計圖弄亂。
 
 (移到對比圖)
-
+ 
 這個案例的問題是專案有一個地圖儀表板功能，上面會標示選中縣市開發案場的位置，原本的地圖只會顯示該縣市的範圍。
 
 後來發現案場數量跟資料庫筆數不同，因為有些案場雖然歸這個縣市管理，實際位置可能在很遠的地方。
 
 例如高速公路或是離岸風機，如果地圖只顯示單一縣市的範圍，這些案場會落在地圖外面，沒辦法正常呈現。
 
+這邊他就幫我列出改造前 跟 改造後 的畫面  ，還有改造前後的對照圖
+
 當時收到環工提出的需求後，我用 Claude design 先做示意圖，因為這個畫面的變動有點大，我不確定環工會不會接受。所以直接帶著示意圖去會議上討論。
 
-環工看過之後，覺得這個方向OK，建議再增加拖拉和縮放的功能。
+環工看過之後，覺得這個方向OK，建議再增加拖拉和縮放的功能就可以。
 
 (關設計圖 )
 
 本來會議只是要討論該怎麼解決這個問題，直接變成當場就定案
 
-如果一開始只有文字描述或口頭討論，可能就沒有辦法這麼順利定案。
+如果一開始只有文字描述或口頭討論，可能沒有辦法這麼順利就定案。
 </aside>
 </section>
 <section id="case-catalog" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
@@ -443,15 +445,15 @@ Claude design 連結打開後，其實就是網頁版 Claude 其中一個頁籤
 <aside>
 接下來分享第二個案例
 
-專案當時遇到一個問題，新頁面的設計圖跟原有畫面風格不一致，但是專案又沒有一份完整的 UI 規範可以參考，所以實際做出來的畫面，有時候會跟環工想像的有落差。
+專案當時遇到的問題是，新頁面的設計圖跟現有畫面風格不一致，但是專案又沒有一份完整的 UI 規範可以參考，所以實際做出來的畫面，有時候會跟環工想像的有落差。
 
 因為專案裡已經累積不少元件，如果要全部人工盤點，再整理成文件，需要花不少時間。
 
-所以後來我就請 AI 協助盤點專案裡的 UI 元件，整理成一份 UI 元件圖鑑。
+所以後來我就請 AI 協助盤點專案裡的 UI 元件，整理成一份 UI 圖鑑。
 
-這份圖鑑把專案裡元件和樣式整理出來，讓大家一目瞭然專案中各種元件的使用情形。
+這份圖鑑把專案裡元件和樣式整理出來，讓大家可以很清楚專案中各種元件的使用情形。
 
-之後遇到設計圖跟既有畫面不一樣的情況，就可以直接拿這份圖鑑來討論。
+之後遇到設計圖跟現有畫面不一樣的情況，就可以直接拿這份圖鑑來討論。
 </aside>
 </section>
 <section id="case-catalog-use" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:72px 128px 120px;display:flex;flex-direction:column;gap:28px">
@@ -505,18 +507,18 @@ Claude design 連結打開後，其實就是網頁版 Claude 其中一個頁籤
 
 這份圖鑑其實就是一個 HTML 檔。
 
-AI 盤點完專案之後，把專案中實際存在的樣式100%還原，照功能分類整理出來，有色彩、文字、頁面框架、區塊卡片...等等。
+AI 盤點完專案之後，把專案中實際存在的樣式100%還原到這個檔案，照功能分類整理出來，有色彩、文字、頁面框架、區塊卡片...等等。
 
-每個項目旁邊都會有標記
-「標準」：專案裡最大量使用，或是已經做成共用元件。新的畫面就照這個做。
-「待收斂」：同一件事目前有好幾種寫法並存。
-「例外」：故意長得不一樣。
+每個項目旁邊都會有標註
+「標準」表示：專案裡最大量使用，或是已經做成共用元件。  未來的新的畫面就照這個做。
+「待收斂」表示：同一件事目前有好幾種寫法並存。
+「例外」則是：故意長得不一樣。
 
 （捲到 6.2 圖示＋文字按鈕）
 
 像 6.3 圖示＋文字按鈕
 
-這邊就發現同樣是匯出按鈕，專案目前有兩種樣式，所以旁邊標示待收斂
+這邊就發現同樣是匯出按鈕，專案目前有兩種不同的樣式，所以旁邊標示待收斂
 
 以前這種差異，我只能用文字或截圖去描述，但現在有具體的畫面跟編號，討論的時候就可以直接說編號就好
 而且下方都有標示目前這種樣式出現在什麼地方，要調整的時候也很方便
@@ -524,11 +526,15 @@ AI 盤點完專案之後，把專案中實際存在的樣式100%還原，照功�
 （回到簡報）
 
 我跟環工討論畫面時，會優先用標準樣式。
-待收斂的先標出來，等之後剛好改到相關功能再處理。這樣畫面不會一次變動太大。
+待收斂的先標出來，等之後剛好改到相關功能再處理。
+
+這樣畫面才不會一次變動太大。
 
 之後遇到設計圖跟現有畫面不一樣，我會在 Issue 留言
 
 設計圖跟專案規範不一樣，請問要使用圖鑑 6.3-A 標準樣式還是要照設計圖建立新樣式
+
+過去樣式確認經常需要溝通好幾次，使用這個方式後，一次過的比例有很顯著的提高。
 
 </aside>
 </section>
@@ -563,13 +569,13 @@ AI 盤點完專案之後，把專案中實際存在的樣式100%還原，照功�
 
 我覺得用 AI coding 最重要的已經不是某個功能做不做得出來，而是能不能在開發前，把需求真正釐清。
 
-以前接到需求，因為我的專案夥伴都在衡陽辦，平常討論大部分都是靠文字溝通，只有正式會議才會口頭討論，經常處於很微妙的平衡，好像懂了又好像沒懂，都要等程式寫出來才知道是否符合環工的期待，如果理解錯了 就要再一來一回修正
+以前接到需求，因為我的專案夥伴都在衡陽辦，平常討論大部分都是靠文字溝通，只有正式會議才會口頭討論，對需求的理解經常處於很微妙的平衡，好像懂了又好像沒懂，都要等程式寫出來，環工看到畫面後才知道是否符合預期，如果理解錯了 就要再一來一回修正
 
-但現在有了 AI 的協助，透過今天分享的兩個案例，我可以在正式開發前，先把想法具體呈現出來，讓需求更容易被確認，也能減少後續反覆修改的情況。
+但現在有了 AI 的協助，透過今天分享的兩個案例，我可以在正式開發前，先把想法具體呈現出來，讓需求更容易被確認，也能減少後續反覆修改的次數。
 
 以上是我這段時間用 AI 最有感的地方。
 
-分享就到這邊，謝謝大家！」
+我的分享到此結束，謝謝大家！」
 </aside>
 </section>
 <section id="closing" data-transition="fade" style="background:#FBF6EE;color:#2E3A33;font-family:'Chiron GoRound TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:48px">
